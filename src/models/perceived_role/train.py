@@ -77,12 +77,22 @@ def make_collate_fn(tokenizer, max_length: int = 64):
 @dataclass
 class TrainConfig:
     backbone_name: str = "microsoft/deberta-v3-base"
-    max_length: int = 64
-    batch_size: int = 32
+    max_length: int = 32
+    batch_size: int = 8
     lr: float = 2e-5
     n_epochs: int = 2
     seed: int = 42
-    device: str = "mps" if torch.backends.mps.is_available() else "cpu"
+    # DEVICE, DISCLOSED CONSTRAINT (docs/decisions.md / docs/lab_notebook.md):
+    # MPS was measured faster per-step in isolation, but on THIS machine (8GB
+    # total RAM, shared with the IDE / other apps) MPS wires
+    # ~3.5GB for the Metal driver, which pushed the whole system into
+    # memory-pressure thrashing (215M+ page translation faults, effective
+    # near-0% useful CPU) during a real background run -- not a code bug,
+    # confirmed by killing the process and watching wired memory drop by
+    # that same ~3.5GB. CPU avoids this entirely and was verified stable
+    # (memory flat, ~9.8 examples/sec at bs=8/len=32) under real system
+    # load. Defaulting to CPU here is a measured fix, not a guess.
+    device: str = "cpu"
     log_every: int = 20
 
 

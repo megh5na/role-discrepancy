@@ -21,17 +21,22 @@ Expected outcome per spec: naive -> high natural accuracy, LOW swap
 consistency (follows position). Transplanted -> somewhat lower natural
 accuracy, substantially HIGHER swap consistency (follows register).
 
-COMPUTE-DRIVEN SCOPE REDUCTION, STATED HONESTLY (not hidden): this is a
-CPU/MPS laptop, not a GPU cluster (docs/decisions.md). DeBERTa-v3-base
-trains at ~3.4s/step (bs=16) on this machine, measured directly (see
-conversation/build log). At that throughput, the full balanced set
-(~6,300 examples/condition) x 2 conditions x the spec's target 3-5 seeds is
-not tractable in a single working session. This run uses a SUBSAMPLED
+COMPUTE-DRIVEN SCOPE REDUCTION, STATED HONESTLY (not hidden): this is an
+8GB-RAM laptop, not a GPU cluster. First attempt at this
+run used MPS (Apple Silicon GPU), which measured FASTER per-step in
+isolation but, under real system load (IDE + everything else
+already resident), wired ~3.5GB for the Metal driver and pushed the whole
+machine into memory-pressure thrashing -- diagnosed via `vm_stat`
+(215M+ page translation faults, effective near-0% useful CPU despite the
+process staying "runnable"), fixed by killing it and switching to CPU + a
+smaller batch/sequence length, verified stable before relaunching. At
+CPU throughput (~9.8 examples/sec, bs=8/len=32, measured), the full balanced
+set (~6,300 examples/condition) x 2 conditions x the spec's target 3-5 seeds
+is not tractable in a single working session. This run uses a SUBSAMPLED
 training pool (SUBSAMPLE_N per condition) and REDUCED_SEEDS, both named as
 config fields so the reduction is visible in every result file, not silently
-assumed. Scaling to the full set and full seed count is explicit follow-up
-work (tracked in docs/decisions.md / Section 21 checklist), not a
-substitute for it.
+assumed. Scaling to the full set, full seed count, and (on better hardware)
+MPS/GPU acceleration is explicit follow-up work, not a substitute for it.
 """
 
 from __future__ import annotations
@@ -58,8 +63,11 @@ SUBSAMPLE_N = 1500       # examples per condition, per docstring note above
 VAL_FRACTION = 0.15
 SEEDS = [42, 123]        # REDUCED from spec's target 3-5 -- see docstring
 N_EPOCHS = 2
-BATCH_SIZE = 16
-MAX_LENGTH = 48
+# batch_size/max_length reduced from an initial 16/48: on this 8GB-RAM dev
+# machine, MPS training thrashed the system. CPU + bs=8 + len=32 measured stable
+# at ~9.8 examples/sec with flat memory under real system load.
+BATCH_SIZE = 8
+MAX_LENGTH = 32
 
 
 def load_jsonl(path: Path, cls):
