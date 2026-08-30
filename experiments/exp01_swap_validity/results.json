@@ -1,0 +1,130 @@
+[
+  {
+    "model": "tfidf_lr",
+    "condition": "naive",
+    "seed": 42,
+    "n_train": 6317,
+    "swap_consistency": 0.8183333333333334,
+    "native_acc": 0.81,
+    "foreign_acc": 0.7066666666666667,
+    "n": 600
+  },
+  {
+    "model": "tfidf_lr",
+    "condition": "transplant",
+    "seed": 42,
+    "n_train": 6317,
+    "swap_consistency": 0.9216666666666666,
+    "native_acc": 0.8016666666666666,
+    "foreign_acc": 0.8066666666666666,
+    "n": 600
+  },
+  {
+    "model": "deberta_v3_base_encoder",
+    "condition": "naive",
+    "seed": 42,
+    "n_train": 1275,
+    "n_val": 225,
+    "n_epochs": 2,
+    "batch_size": 8,
+    "max_length": 32,
+    "subsample_n": 1500,
+    "config_hash": "e4d7ec18abb1",
+    "train_history": {
+      "train_loss": [
+        0.6841227315831929,
+        0.26415159974712876
+      ],
+      "val_acc": [
+        0.8266666666666667,
+        0.8444444444444444
+      ]
+    },
+    "elapsed_sec": 443.8256320953369,
+    "swap_consistency": 0.7133333333333334,
+    "native_acc": 0.865,
+    "foreign_acc": 0.6416666666666667,
+    "n": 600
+  },
+  {
+    "model": "deberta_v3_base_encoder",
+    "condition": "naive",
+    "seed": 123,
+    "n_train": 1275,
+    "n_val": 225,
+    "n_epochs": 2,
+    "batch_size": 8,
+    "max_length": 32,
+    "subsample_n": 1500,
+    "config_hash": "e760b2601dd0",
+    "train_history": {
+      "train_loss": [
+        0.7084554543020204,
+        0.27914565582759676
+      ],
+      "val_acc": [
+        0.8266666666666667,
+        0.8933333333333333
+      ]
+    },
+    "elapsed_sec": 628.9801638126373,
+    "swap_consistency": 0.7083333333333334,
+    "native_acc": 0.8416666666666667,
+    "foreign_acc": 0.6183333333333333,
+    "n": 600
+  },
+  {
+    "model": "deberta_v3_base_encoder",
+    "condition": "transplant",
+    "seed": 42,
+    "n_train": 1275,
+    "n_val": 225,
+    "n_epochs": 2,
+    "batch_size": 8,
+    "max_length": 32,
+    "subsample_n": 1500,
+    "config_hash": "b061cdd262de",
+    "train_history": {
+      "train_loss": [
+        0.7929467108333483,
+        0.3398147242725827
+      ],
+      "val_acc": [
+        0.7822222222222223,
+        0.8222222222222222
+      ]
+    },
+    "elapsed_sec": 688.206873178482,
+    "swap_consistency": 0.9366666666666666,
+    "native_acc": 0.8583333333333333,
+    "foreign_acc": 0.8533333333333334,
+    "n": 600
+  },
+  {
+    "model": "deberta_v3_base_encoder",
+    "condition": "transplant",
+    "seed": 123,
+    "n_train": 1275,
+    "n_val": 225,
+    "n_epochs": 2,
+    "batch_size": 8,
+    "max_length": 32,
+    "subsample_n": 1500,
+    "config_hash": "b8c5ce580767",
+    "train_history": {
+      "train_loss": [
+        0.8126280215568841,
+        0.35763749970356
+      ],
+      "val_acc": [
+        0.8,
+        0.7955555555555556
+      ]
+    },
+    "elapsed_sec": 1228.157073020935,
+    "swap_consistency": 0.9366666666666666,
+    "native_acc": 0.8433333333333334,
+    "foreign_acc": 0.8316666666666667,
+    "n": 600
+  }
+]
