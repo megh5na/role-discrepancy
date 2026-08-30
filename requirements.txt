@@ -3,7 +3,12 @@
 
 # ML / DL
 torch>=2.2
-transformers>=4.44
+# PINNED, not >=: transformers 5.16.1 (the latest at time of writing) has a
+# broken tokenizer-conversion path for DeBERTa-v3's SentencePiece format
+# (misreads spm.model as a tiktoken BPE file).
+# 4.46.3 is the last version confirmed working for this backbone in this env.
+transformers==4.46.3
+protobuf>=4.25
 accelerate>=0.33
 scikit-learn>=1.5
 xgboost>=2.0

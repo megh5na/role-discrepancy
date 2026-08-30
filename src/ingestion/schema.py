@@ -46,6 +46,14 @@ class Role(str, Enum):
     REASONING = "reasoning"
 
 
+# Canonical, fixed ordering used EVERYWHERE a Role needs an integer index
+# (model logits, confusion matrices, one-hot vectors) so that index i always
+# means the same role across every module that touches the encoder.
+ROLE_ORDER: list[Role] = [Role.SYSTEM, Role.USER, Role.DOCUMENT, Role.TOOL, Role.REASONING]
+ROLE_TO_IDX: dict[Role, int] = {r: i for i, r in enumerate(ROLE_ORDER)}
+IDX_TO_ROLE: dict[int, Role] = {i: r for r, i in ROLE_TO_IDX.items()}
+
+
 class DataCategory(str, Enum):
     """
     The four data categories, Section 10. DO NOT CONFLATE THEM — they play
