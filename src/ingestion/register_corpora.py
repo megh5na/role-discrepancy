@@ -22,6 +22,23 @@ corpus whose text naturally "sounds like" that role:
     REASONING -> openai/gsm8k 'main' ('answer')
                  + microsoft/orca-math-word-problems-200k ('answer')
                  (first-person deliberative, step-by-step register)
+    SYSTEM    -> fka/awesome-chatgpt-prompts ('prompt')
+                 (persona/identity-defining directive register)
+                 *** SINGLE-SOURCED — see LIMITATION note below ***
+                 *** NOT IN THE SPEC'S SECTION 10 LIST — see note below ***
+
+NOTE ON SYSTEM REGISTER: Section 10 of the spec lists register-source corpora
+for USER/DOCUMENT/TOOL/REASONING only; it names no source for SYSTEM. But
+Section 8's own example encoder output is a 5-way distribution including
+`system` ("{system: 0.02, user: 0.91, ...}"), and Role (schema.py) is a
+5-value enum matching Ye et al.'s vocabulary. This is a genuine gap in the
+document, not a design choice to silently resolve either way (Section 27
+rule 1: "If code and this document disagree, flag it rather than silently
+following either"). Resolution: added a SYSTEM source
+(fka/awesome-chatgpt-prompts -- persona/identity-instruction prompts, e.g.
+"I want you to act as a linux terminal...", genuinely distinct in register
+from USER task requests) so the encoder's output space matches Section 8's
+stated 5-class example. Flagged here.
 
 WHY MULTIPLE CORPORA PER REGISTER (balance condition, Section 6 NEW-1 /
 Section 10): if every "user"-labelled example comes from Dolly and nothing
@@ -271,14 +288,47 @@ def load_reasoning_register(n_per_source: int = 1500) -> list[Record]:
     return load_gsm8k(n_per_source) + load_orca_math(n_per_source)
 
 
+# --- SYSTEM register (single-sourced -- see module docstring note) --------
+
+
+def load_system_prompts(n: int = 2100) -> list[Record]:
+    ds = load_dataset("fka/awesome-chatgpt-prompts", split="train")
+    records = []
+    for i in _shuffled_indices(len(ds)):
+        text = (ds[i].get("prompt") or "").strip()
+        if not text:
+            continue
+        records.append(
+            Record(
+                record_id=Record.make_id("awesome-chatgpt-prompts", text, i),
+                text=text,
+                declared_role=Role.SYSTEM,
+                source_dataset="awesome-chatgpt-prompts",
+                category=DataCategory.REGISTER_SOURCE,
+            )
+        )
+        if len(records) >= n:
+            break
+    return records
+
+
+def load_system_register(n_per_source: int = 2100) -> list[Record]:
+    return load_system_prompts(n_per_source)
+
+
 def load_all_register_sources(
-    n_user: int = 1500, n_document: int = 1500, n_tool: int = 6000, n_reasoning: int = 1500
+    n_user: int = 1500,
+    n_document: int = 1500,
+    n_tool: int = 6000,
+    n_reasoning: int = 1500,
+    n_system: int = 2100,
 ) -> list[Record]:
     records: list[Record] = []
     records += load_user_register(n_user)
     records += load_document_register(n_document)
     records += load_tool_register(n_tool)
     records += load_reasoning_register(n_reasoning)
+    records += load_system_register(n_system)
     return records
 
 
