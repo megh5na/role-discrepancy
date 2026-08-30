@@ -1,0 +1,32 @@
+# Role-Discrepancy Detection — dependencies
+# Python 3.11+ (dev machine: 3.12)
+
+# ML / DL
+torch>=2.2
+transformers>=4.44
+accelerate>=0.33
+scikit-learn>=1.5
+xgboost>=2.0
+datasets>=2.20
+
+# Data processing
+pandas>=2.2
+numpy>=1.26
+scipy>=1.13
+pyarrow>=17.0
+pysbd>=0.3.4
+datasketch>=1.6
+
+# Utilities
+pyyaml>=6.0
+tqdm>=4.66
+
+# Backend / demo (built last, per spec — installed now so the env is complete)
+fastapi>=0.112
+uvicorn>=0.30
+
+# Viz
+matplotlib>=3.9
+
+# Testing
+pytest>=7.4
