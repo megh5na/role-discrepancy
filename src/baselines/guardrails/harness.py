@@ -47,6 +47,24 @@ class GuardrailSpec:
 
 # Registry of guardrail baselines this project compares against (Section 4.4).
 # LlamaGuard-3-8B and LLM-judge intentionally excluded here -- see module docstring.
+#
+# ACCESS CONSTRAINTS DISCOVERED AT BUILD TIME, DISCLOSED (not silently
+# worked around -- Section 27 rule 1):
+#   - meta-llama/Llama-Prompt-Guard-2-86M is GATED (requires Meta's manual
+#     approval on the HF account running this code). Kept in the registry
+#     (so intent is visible and it activates automatically if the user's
+#     account is ever approved) but WILL be skipped by run_exp03.py's
+#     try/except until then.
+#   - leolee99/PIGuard (the spec-named PIGuard/InjecGuard baseline) ships
+#     with `trust_remote_code=True` -- i.e. loading it executes arbitrary
+#     Python from the HF repo on this machine. This falls under "downloading
+#     or executing files from untrusted sources," which this project does
+#     not do without the user's explicit, informed sign-off. NOT included
+#     here. If the user wants it, they need to approve that specifically.
+#   - "third_party_deberta_v3_injection" substitutes for the resulting gap:
+#     a standard (no custom code, no gating) DeBERTa-v3-base fine-tune for
+#     the same task, so the matched-FPR comparison still has >=2 real
+#     detectors to compare against instead of silently degrading to one.
 KNOWN_GUARDRAILS: dict[str, GuardrailSpec] = {
     "promptguard2": GuardrailSpec(
         name="PromptGuard 2 (86M)",
@@ -57,6 +75,11 @@ KNOWN_GUARDRAILS: dict[str, GuardrailSpec] = {
         name="ProtectAI v2",
         hf_model_id="protectai/deberta-v3-base-prompt-injection-v2",
         injection_label_hint=None,
+    ),
+    "third_party_deberta_v3_injection": GuardrailSpec(
+        name="DeBERTa-v3 prompt-injection (third-party fine-tune, substitute for PIGuard)",
+        hf_model_id="Octavio-Santana/deberta-v3-base-prompt-injection-detection",
+        injection_label_hint="LABEL_1",
     ),
 }
 

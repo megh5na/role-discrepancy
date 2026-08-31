@@ -1,0 +1,10 @@
+{
+  "model_name": "HuggingFaceTB/SmolLM2-135M-Instruct",
+  "layer": 21,
+  "n_layers": 30,
+  "in_distribution_wrapper_accuracy": 1.0,
+  "conflict_mean_reasoningness": 2.7235224479227327e-05,
+  "conflict_mean_userness": 0.9903963804244995,
+  "follows_content_register": false,
+  "verdict": "DOES NOT REPRODUCE: probe follows the TAG, not content register -- ESCALATE per Section 8 C7 gate"
+}
