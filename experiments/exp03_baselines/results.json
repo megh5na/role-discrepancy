@@ -1,0 +1,50 @@
+{
+  "ours_discrepancy": {
+    "0.01": {
+      "threshold": 0.9921342907473445,
+      "tpr": 0.17,
+      "achieved_fpr": 0.01125,
+      "n_benign": 800,
+      "n_injected": 800
+    },
+    "0.05": {
+      "threshold": 0.9720042813569307,
+      "tpr": 0.5475,
+      "achieved_fpr": 0.05375,
+      "n_benign": 800,
+      "n_injected": 800
+    }
+  },
+  "protectai_v2": {
+    "0.01": {
+      "threshold": 0.9989474415779114,
+      "tpr": 0.07625,
+      "achieved_fpr": 0.01125,
+      "n_benign": 800,
+      "n_injected": 800
+    },
+    "0.05": {
+      "threshold": 0.17877179384231567,
+      "tpr": 0.16625,
+      "achieved_fpr": 0.05125,
+      "n_benign": 800,
+      "n_injected": 800
+    }
+  },
+  "third_party_deberta_v3_injection": {
+    "0.01": {
+      "threshold": 0.9883910417556763,
+      "tpr": 0.045,
+      "achieved_fpr": 0.01125,
+      "n_benign": 800,
+      "n_injected": 800
+    },
+    "0.05": {
+      "threshold": 0.9867688417434692,
+      "tpr": 0.1075,
+      "achieved_fpr": 0.0525,
+      "n_benign": 800,
+      "n_injected": 800
+    }
+  }
+}
