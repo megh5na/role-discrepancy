@@ -7,3 +7,4 @@ data/interim/*.jsonl
 data/processed/
 *.egg-info/
 .DS_Store
+checkpoints/
