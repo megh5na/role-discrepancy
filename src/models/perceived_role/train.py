@@ -79,7 +79,7 @@ class TrainConfig:
     backbone_name: str = "microsoft/deberta-v3-base"
     max_length: int = 32
     batch_size: int = 8
-    lr: float = 2e-5
+    lr: float = 2e-5 # learning rate - conventionally small for DeBERTa-v3-base, which is already pretrained
     n_epochs: int = 2
     seed: int = 42
     # DEVICE, DISCLOSED CONSTRAINT (docs/decisions.md / docs/lab_notebook.md):
@@ -132,7 +132,7 @@ def train_one_run(
 
             opt.zero_grad()
             logits = model(enc["input_ids"], enc["attention_mask"])
-            loss = nn.functional.cross_entropy(logits, labels)
+            loss = nn.functional.cross_entropy(logits, labels) # loss
             loss.backward()
             opt.step()
 
@@ -158,7 +158,7 @@ def train_one_run(
 
 
 @torch.no_grad()
-def evaluate_accuracy(
+def evaluate_accuracy( # runs after each epoch if val_examples is provided, or can be called standalone for a final evaluation
     model: PerceivedRoleEncoder, tokenizer, examples: list[TrainingExample], config: TrainConfig
 ) -> float:
     model.eval()

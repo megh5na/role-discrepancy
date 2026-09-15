@@ -19,7 +19,7 @@ which would silently invalidate the entire project. Anyone modifying this
 file must not add such a path without flagging it first, per Section 27
 rule 16.
 """
-
+# 183,835,397 parameters, 12 layers, 768 hidden, 12 heads, 512 max seq length, 64k vocab
 from __future__ import annotations
 
 import torch
@@ -51,7 +51,7 @@ class PerceivedRoleEncoder(nn.Module):
         self.dropout = nn.Dropout(dropout)
         self.classifier = nn.Linear(hidden_size, num_labels)
 
-    def forward(self, input_ids: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
+    def forward(self, input_ids: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor: # doesn't take delimiter tokens, channel ids, or declared roles -- see Absolute Prohibition A
         outputs = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
         hidden = outputs.last_hidden_state  # (batch, seq, hidden)
         mask = attention_mask.unsqueeze(-1).to(hidden.dtype)  # (batch, seq, 1)
