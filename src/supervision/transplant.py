@@ -48,7 +48,7 @@ from src.supervision.types import SwapPairItem, TrainingExample
 DEFAULT_SWAP_PAIRS_PER_LABEL = 120
 
 
-def group_by_label(spans: list[Record]) -> dict[Role, list[Record]]:
+def group_by_label(spans: list[Record]) -> dict[Role, list[Record]]: # removes 120 spans per label - total 600 before creating any training sets
     out: dict[Role, list[Record]] = defaultdict(list)
     for s in spans:
         out[s.declared_role].append(s)
@@ -81,7 +81,7 @@ def reserve_swap_pool(
     return remaining, swap_pool
 
 
-def build_naive_control_set(spans: list[Record]) -> list[TrainingExample]:
+def build_naive_control_set(spans: list[Record]) -> list[TrainingExample]: # no carrier wrapping, no transplantation -- the baseline (b) from Section 6 NEW-1
     """Baseline (b) from Section 6 NEW-1: bare natural text, labelled by
     origin corpus, with NO transplantation at all. Every example's
     position_channel equals its label by construction -- this is precisely
@@ -115,12 +115,12 @@ def build_transplant_set(
         if rng.random() < transplant_rate:
             foreign_channels = [c for c in carriers.available_channels() if c != origin]
             target = rng.choice(foreign_channels)
-            text = carriers.embed_in_channel(s.text, target, rng)
+            text = carriers.embed_in_channel(s.text, target, rng) # wrapped in a foreign channel's carrier
             examples.append(
                 TrainingExample(
                     example_id=TrainingExample.make_id(s.record_id, target, "transplant"),
                     text=text,
-                    label=origin,
+                    label=origin, # label is origin, not target
                     position_channel=target,
                     is_transplanted=True,
                     source_dataset=s.source_dataset,

@@ -55,3 +55,5 @@ def probe_readout(clf: LogisticRegression, activations: torch.Tensor) -> np.ndar
 
 def readout_for_role(readout: np.ndarray, role: Role) -> np.ndarray:
     return readout[:, ROLE_ORDER.index(role)]
+
+# returns P(user), P(reasoning) for each unit text

@@ -207,3 +207,6 @@ def run():
 
 if __name__ == "__main__":
     run()
+
+# transplant is proven better. now, model only uses transplant construction, and we can do a more thorough hyperparameter search (Section 21 checklist) to get the best possible model for the next experiment (E2).
+# uses the transplant_train.jsonl, split 90/10 into train/val, and the swap_test_pairs.jsonl for evaluation to produce the model.pt checkpoint. 

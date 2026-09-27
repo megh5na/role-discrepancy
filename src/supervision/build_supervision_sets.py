@@ -11,7 +11,7 @@ Usage:
         --out-dir data/processed \
         --transplant-rate 0.5
 """
-
+# wire together the transplant.py + balance.py modules, and run the balance diagnostics before anything gets trained on the resultx
 from __future__ import annotations
 
 import argparse

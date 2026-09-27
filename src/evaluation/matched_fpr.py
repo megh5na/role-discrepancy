@@ -20,7 +20,7 @@ import numpy as np
 from src.scoring.calibration import calibrate_threshold, empirical_fpr
 
 
-def matched_fpr_comparison(
+def matched_fpr_comparison( # this function takes a dictionary of detector scores (benign and injected) and computes the TPR for each detector at specified target FPRs. It returns a nested dictionary with the results.
     detector_scores: dict[str, tuple[np.ndarray, np.ndarray]],
     target_fprs: list[float] = [0.01, 0.05],
 ) -> dict:
@@ -37,7 +37,7 @@ def matched_fpr_comparison(
         injected = np.asarray(injected, dtype=float)
         results[name] = {}
         for target_fpr in target_fprs:
-            threshold = calibrate_threshold(benign, target_fpr)
+            threshold = calibrate_threshold(benign, target_fpr) # this line calculates the threshold score for the detector such that the proportion of benign examples that exceed this threshold is at most the target false positive rate (FPR). This ensures that the detector is calibrated to flag injections while maintaining a controlled rate of false positives on benign data.
             tpr = float(np.mean(injected >= threshold)) if len(injected) else float("nan")
             achieved_fpr = empirical_fpr(benign, threshold)
             results[name][target_fpr] = {

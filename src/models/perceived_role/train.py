@@ -58,7 +58,7 @@ class RoleDataset(Dataset):
 
     def __getitem__(self, idx: int) -> tuple[str, int]:
         ex = self.examples[idx]
-        return ex.text, ROLE_TO_IDX[ex.label]
+        return ex.text, ROLE_TO_IDX[ex.label] # returns only the text and the label index, not any other metadata
 
 
 def make_collate_fn(tokenizer, max_length: int = 64):
@@ -82,16 +82,6 @@ class TrainConfig:
     lr: float = 2e-5 # learning rate - conventionally small for DeBERTa-v3-base, which is already pretrained
     n_epochs: int = 2
     seed: int = 42
-    # DEVICE, DISCLOSED CONSTRAINT (docs/decisions.md / docs/lab_notebook.md):
-    # MPS was measured faster per-step in isolation, but on THIS machine (8GB
-    # total RAM, shared with the IDE / other apps) MPS wires
-    # ~3.5GB for the Metal driver, which pushed the whole system into
-    # memory-pressure thrashing (215M+ page translation faults, effective
-    # near-0% useful CPU) during a real background run -- not a code bug,
-    # confirmed by killing the process and watching wired memory drop by
-    # that same ~3.5GB. CPU avoids this entirely and was verified stable
-    # (memory flat, ~9.8 examples/sec at bs=8/len=32) under real system
-    # load. Defaulting to CPU here is a measured fix, not a guess.
     device: str = "cpu"
     log_every: int = 20
 

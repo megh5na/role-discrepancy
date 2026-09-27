@@ -21,7 +21,7 @@ available. `corpus_prediction_probe` below is the verification instrument
 named explicitly in that section: "verify it with a corpus-prediction
 probe."
 """
-
+# basically, to paraphrase the spec: "balance, then verify that you balanced correctly, because if you didn't balance correctly, the model will find a shortcut and you'll never know it."
 from __future__ import annotations
 
 import random

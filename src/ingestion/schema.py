@@ -122,7 +122,7 @@ class Record:
     meta: dict = field(default_factory=dict)
 
     @staticmethod
-    def make_id(source_dataset: str, text: str, index: int) -> str:
+    def make_id(source_dataset: str, text: str, index: int) -> str: # used for deterministic id generation in ingestion, so that re-running ingestion doesn't change record identity (which matters for the leakage test comparing ids across splits)
         """Deterministic id: identical input always hashes to the same id."""
         h = hashlib.sha256(
             f"{source_dataset}::{index}::{text}".encode("utf-8")

@@ -60,3 +60,12 @@ def evaporates_under_stripping(text: str = "This is a neutral sentence.") -> dic
         wrapped = wrap(text, role)
         results[role.value] = strip_delimiters(wrapped)
     return results
+
+# sample output of evaporates_under_stripping() for the default neutral text:
+# {
+#     "system": "This is a neutral sentence.",
+#     "user": "This is a neutral sentence.",
+#     "document": "This is a neutral sentence.",
+#     "tool": "This is a neutral sentence.",
+#     "reasoning": "This is a neutral sentence."
+# }

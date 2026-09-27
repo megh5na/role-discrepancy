@@ -75,3 +75,4 @@ def extract_activations(
 
 def n_layers(model) -> int:
     return model.config.num_hidden_layers
+ # returns one vector per unit text

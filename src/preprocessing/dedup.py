@@ -13,6 +13,7 @@ Uses datasketch MinHash + LSH for approximate near-duplicate detection
 (exact-hash dedup would miss paraphrase-level duplicates; full pairwise
 comparison is O(n^2) and too slow past a few thousand records).
 """
+# run separately per role
 
 from __future__ import annotations
 

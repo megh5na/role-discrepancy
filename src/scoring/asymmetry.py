@@ -57,6 +57,7 @@ Ablation hook: `SYMMETRIC_SEVERITY` (all off-diagonal cells = 1.0) is
 provided so Experiment 6's ablation ("symmetric vs asymmetric scoring",
 Section 14) is a one-line swap, not new code.
 """
+# not all role mismatches need to be treated equally.
 
 from __future__ import annotations
 
@@ -130,3 +131,6 @@ def combined_score(
         "perceived_role": perceived_role,
         "declared_role": declared_role,
     }
+
+# it returns a dictionary containing the final discrepancy score, the base discrepancy score, the severity of the perceived-declared role pair, and both the perceived and declared roles themselves.
+# base is a scalar value derived from the perceived probabilities and declared role, while perceived role is the role with the highest probability according to the model's output. The severity is a weight based on how critical it is for the perceived role to match the declared role, which can be asymmetric depending on the roles involved.

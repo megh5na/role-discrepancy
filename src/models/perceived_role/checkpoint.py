@@ -8,7 +8,7 @@ every time -- E1's runs were deliberately throwaway (in-memory only, for a
 fast controlled comparison); this is what persists the encoder we'll
 actually SCORE things with.
 """
-
+# this is the checkpointing mechanism for the perceived-role encoder model, allowing it to be saved and loaded for future use without retraining.
 from __future__ import annotations
 
 import json

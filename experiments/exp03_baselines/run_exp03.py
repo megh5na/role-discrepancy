@@ -59,11 +59,13 @@ def get_our_scores(texts: list[str]) -> np.ndarray:
             scores.append(result["score"])
     return np.array(scores)
 
+# returns (benign_scores, injected_scores)
 
+# run it through matched_fpr_comparision on that detector's own benign-score distribution such that benign does not exceed target, and return TPR on injected at that threshold. Repeat for each detector, then print a table of TPR@FPR for each detector at each target FPR.
 def run():
     print("=" * 70)
     print("EXPERIMENT 3 -- Baseline detection comparison (first cut: BIPIA)")
-    print("=" * 70)
+    print("=" * 70)#
 
     records = list(read_records(BIPIA_PATH))
     benign_texts = [strip_delimiters(r.text) for r in records if r.is_injected is False]

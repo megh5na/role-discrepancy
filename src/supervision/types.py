@@ -20,7 +20,7 @@ from src.ingestion.schema import Role
 @dataclass
 class TrainingExample:
     example_id: str
-    text: str
+    text: str # only thing the model ever sees; all other fields are bookkeeping used to build/balance/audit the construction and are NEVER passed to the model (Section 27, Absolute Prohibition A)
     label: Role                 # training target = ORIGIN register
     position_channel: Role      # which carrier (or native/bare) the text is dressed as -- bookkeeping ONLY, never model input
     is_transplanted: bool       # position_channel != label's natural origin

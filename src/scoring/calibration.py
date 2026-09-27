@@ -12,6 +12,7 @@ under-defended in a viva. Instead: pick the threshold empirically FROM
 SCORES ON A HELD-OUT BENIGN SET, at whatever false-positive rate the
 deployment wants to tolerate.
 """
+# the benign set comes from the same source as the training set, but is held out from training and used only for calibration. The threshold is chosen such that the proportion of benign examples that exceed it is at most the target false positive rate (FPR). This ensures that the model's predictions are calibrated to the desired level of conservativeness in practice.
 
 from __future__ import annotations
 
