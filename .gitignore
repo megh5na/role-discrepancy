@@ -9,3 +9,5 @@ data/processed/
 .DS_Store
 checkpoints/
 *.log
+.env
+*.zip

@@ -1,0 +1,67 @@
+# configs/experiment/exp02_lodo.yaml
+#
+# Experiment 2 -- Leave-one-dataset-out (LODO) comparison of the naive vs.
+# transplant supervision construction on the register-source role-
+# classification task.
+#
+# WHY THIS EXPERIMENT: E1 (swap validity) showed transplant beats naive on
+# held-out SPANS from the SAME corpora. That doesn't rule out corpus
+# fingerprinting -- the corpus-prediction probe (src/supervision/balance.py)
+# found 87-93% source-corpus separability on our own data, meaning a model
+# could partly succeed by recognising WHICH corpus a span came from rather
+# than its actual register. LODO holds out an entire SOURCE CORPUS at test
+# time, so a model that leaned on corpus-specific surface style has nothing
+# to fall back on. This is "the honest evaluation protocol" named directly
+# in src/evaluation/lodo.py's docstring (Fomin, arXiv 2602.14161, Section
+# 4.5/6/10).
+#
+# STRUCTURAL CONSTRAINT, not a code limitation: a fold is only meaningful if
+# the held-out label has >=2 source corpora -- holding out a single-sourced
+# label's only corpus removes that label from training ENTIRELY, which
+# tests "never seen this label," not "generalizes across corpora." Two of
+# our five register labels (system, tool) are single-sourced (see
+# docs/decisions.md) and are excluded from LODO folds for this reason, not
+# overlooked.
+
+data:
+  clean_spans_path: data/interim/clean_spans_register.jsonl
+
+# Only these source_dataset values are held out, one per fold -- each
+# belongs to a label with a second real corpus available in every fold
+# where it's not the one held out.
+valid_lodo_corpora:
+  - wikipedia-en        # document (paired with c4-en)
+  - c4-en               # document (paired with wikipedia-en)
+  - gsm8k-reasoning      # reasoning (paired with orca-math)
+  - orca-math           # reasoning (paired with gsm8k-reasoning)
+  - dolly-15k           # user (paired with openorca)
+  - openorca            # user (paired with dolly-15k)
+
+# Single-sourced labels -- held out of the LODO rotation entirely, logged
+# here rather than silently skipped in code with no trace.
+excluded_corpora:
+  - awesome-chatgpt-prompts     # system, single-sourced
+  - glaive-function-calling-v2  # tool, single-sourced
+
+supervision:
+  transplant_rate: 0.5
+  # Reduced from E1's 120/label: some LODO folds (e.g. holding out
+  # dolly-15k, the smaller of the two user-label corpora) leave much
+  # smaller per-label pools than E1's full-corpus setting.
+  n_swap_pairs_per_label: 60
+  seed: 42
+
+training:
+  # REVISION 2026-10-02: the first run (600/condition, 1 seed) reversed
+  # E1's headline result (naive beat transplant, mean 0.487 vs 0.391) --
+  # see docs/lab_notebook.md. Before drawing any conclusion from that,
+  # scaled up: subsample_n 600->1000 (closer to E1's 1500) and seeds
+  # [42]->[42,123] (matching E1's own 2-seed count, for comparability).
+  # 6 folds x 2 conditions x 2 seeds = 24 full training runs -- a real,
+  # multi-hour commitment, disclosed here rather than understated.
+  subsample_n: 1000
+  val_fraction: 0.15
+  seeds: [42, 123]
+  n_epochs: 2
+  batch_size: 8
+  max_length: 32

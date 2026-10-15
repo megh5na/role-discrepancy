@@ -30,6 +30,13 @@ tqdm>=4.66
 fastapi>=0.112
 uvicorn>=0.30
 
+# E7 adaptive attack (needs ANTHROPIC_API_KEY / OPENAI_API_KEY set via a
+# gitignored .env file or the shell environment, never hardcoded — see
+# src/attacks/destyle.py)
+anthropic>=0.40
+openai>=1.50
+python-dotenv>=1.0
+
 # Viz
 matplotlib>=3.9
 

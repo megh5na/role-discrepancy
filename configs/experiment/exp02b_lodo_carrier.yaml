@@ -1,0 +1,56 @@
+# configs/experiment/exp02b_lodo_carrier.yaml
+#
+# Experiment 2b -- LODO with a carrier-wrapped evaluation.
+#
+# WHY THIS EXISTS: E2 (exp02_lodo.yaml) evaluates each model only on the
+# held-out corpus shown BARE. That is the condition the naive baseline is
+# trained for, and it never tests what the transplant construction exists
+# for (robustness to a foreign channel's surface formatting). So a naive win
+# on E2 cannot be read as "naive is better overall". E2b trains the same
+# models as E2 (same folds, same supervision, same budget, same seeds) and
+# evaluates each one on the SAME held-out spans twice: bare, and wrapped in a
+# foreign channel's carrier. It also reports bare/wrapped prediction
+# agreement (a swap-consistency analogue on a corpus never seen in training).
+#
+# Per-span correctness is saved, so paired significance tests
+# (src/evaluation/significance.py) can be run on the real results.
+
+data:
+  clean_spans_path: data/interim/clean_spans_register.jsonl
+
+valid_lodo_corpora:
+  - wikipedia-en
+  - c4-en
+  - gsm8k-reasoning
+  - orca-math
+  - dolly-15k
+  - openorca
+
+excluded_corpora:
+  - awesome-chatgpt-prompts     # system, single-sourced
+  - glaive-function-calling-v2  # tool, single-sourced
+
+supervision:
+  transplant_rate: 0.5
+  n_swap_pairs_per_label: 60
+  seed: 42
+
+training:
+  # Identical to exp02_lodo.yaml on purpose, so the bare accuracies are
+  # comparable with E2's.
+  subsample_n: 1000
+  val_fraction: 0.15
+  seeds: [42, 123]
+  n_epochs: 2
+  batch_size: 8
+  max_length: 32
+
+evaluation:
+  # Held-out corpora can be large (orca-math has 20,352 spans). Evaluating
+  # every span twice per trained model is expensive on this CPU, so a fixed
+  # random sample is used, the SAME spans for bare and wrapped and for every
+  # model, which also makes the comparison paired. Bare accuracy here is
+  # therefore a sample estimate and will not match E2's full-corpus figure
+  # exactly.
+  n_eval_per_fold: 2000
+  eval_seed: 7
