@@ -13,6 +13,7 @@ from src.scoring.asymmetry import (  # noqa: E402
     ASYMMETRIC_SEVERITY,
     SYMMETRIC_SEVERITY,
     combined_score,
+    expected_severity,
     severity,
 )
 
@@ -109,3 +110,58 @@ def test_calibration_flag_consistent_with_threshold():
     assert calibration.flag(0.9, 0.5) is True
     assert calibration.flag(0.1, 0.5) is False
     assert calibration.flag(0.5, 0.5) is True
+
+
+# --- continuous expected severity (adopted from the E6 follow-up) ---
+
+def test_expected_severity_one_hot_equals_matrix_cell_and_zero_on_declared():
+    for p in Role:
+        for d in Role:
+            assert expected_severity(_onehot(p), d) == ASYMMETRIC_SEVERITY[(p, d)]
+
+
+def test_expected_severity_batch_matches_row_by_row():
+    rng = np.random.default_rng(1)
+    probs = rng.dirichlet(np.ones(len(ROLE_ORDER)), size=50)
+    for d in Role:
+        batch = expected_severity(probs, d)
+        assert batch.shape == (50,)
+        assert np.allclose(batch, [expected_severity(r, d) for r in probs])
+
+
+def test_expected_severity_is_continuous_where_the_argmax_scorer_jumps():
+    # declared DOCUMENT, P(document) just above vs just below P(user)
+    above = np.array([0.0, 0.40, 0.41, 0.0, 0.19])
+    below = np.array([0.0, 0.41, 0.40, 0.0, 0.19])
+    assert combined_score(above, Role.DOCUMENT, severity_mode="argmax")["score"] == 0.0
+    assert combined_score(below, Role.DOCUMENT, severity_mode="argmax")["score"] > 0.3   # the argmax cliff
+    a = combined_score(above, Role.DOCUMENT, severity_mode="expected")["score"]
+    b = combined_score(below, Role.DOCUMENT, severity_mode="expected")["score"]
+    assert abs(a - b) < 0.02
+
+
+def test_default_scorer_is_expected_severity():
+    p = np.array([0.1, 0.6, 0.2, 0.05, 0.05])
+    default = combined_score(p, Role.DOCUMENT)
+    assert default["score"] == combined_score(p, Role.DOCUMENT, severity_mode="expected")["score"]
+    assert default["score"] == expected_severity(p, Role.DOCUMENT)
+    # the original scorer is still available by name and differs here (argmax is USER, P(document) = 0.2)
+    argmax = combined_score(p, Role.DOCUMENT, severity_mode="argmax")
+    assert argmax["score"] == argmax["base_discrepancy"] * 1.0          # user perceived under document = severity 1.0
+    assert default["score"] != argmax["score"]
+
+
+def test_symmetric_ablation_still_works_and_uses_the_argmax_form():
+    # use_asymmetry=False has no expected form (severity off), so None resolves to argmax rather than raising
+    p = np.array([0.1, 0.6, 0.2, 0.05, 0.05])
+    assert combined_score(p, Role.DOCUMENT, use_asymmetry=False)["score"] == \
+        combined_score(p, Role.DOCUMENT, use_asymmetry=False, severity_mode="argmax")["score"]
+
+
+def test_combined_score_expected_mode_validation():
+    import pytest
+    p = np.array([0.1, 0.6, 0.2, 0.05, 0.05])
+    with pytest.raises(ValueError):
+        combined_score(p, Role.DOCUMENT, severity_mode="bogus")
+    with pytest.raises(ValueError):
+        combined_score(p, Role.DOCUMENT, severity_mode="expected", use_asymmetry=False)
