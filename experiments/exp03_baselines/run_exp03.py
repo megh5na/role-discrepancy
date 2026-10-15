@@ -55,7 +55,7 @@ def get_our_scores(texts: list[str]) -> np.ndarray:
             logits = model(enc["input_ids"], enc["attention_mask"])
             probs = torch.softmax(logits, dim=-1).numpy()
         for p in probs:
-            result = combined_score(p, Role.DOCUMENT, use_asymmetry=True)
+            result = combined_score(p, Role.DOCUMENT, use_asymmetry=True, severity_mode="argmax")
             scores.append(result["score"])
     return np.array(scores)
 
