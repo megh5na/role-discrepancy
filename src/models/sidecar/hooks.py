@@ -41,9 +41,12 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 DEFAULT_SIDECAR_MODEL = "HuggingFaceTB/SmolLM2-135M-Instruct"
 
 
-def load_sidecar_model(model_name: str = DEFAULT_SIDECAR_MODEL, device: str = "cpu"):
+def load_sidecar_model(model_name: str = DEFAULT_SIDECAR_MODEL, device: str = "cpu", dtype=None):
+    """`dtype=None` keeps the original behaviour (default precision). A larger sidecar (E5,
+    e.g. 1.7B on an 8 GB machine) can be loaded with dtype=torch.bfloat16; pooled
+    activations are cast back to float32 in extract_activations so the sklearn probe works."""
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(model_name, output_hidden_states=True)
+    model = AutoModelForCausalLM.from_pretrained(model_name, output_hidden_states=True, **({"torch_dtype": dtype} if dtype else {}))
     model.to(device)
     model.eval()
     return model, tokenizer
@@ -70,7 +73,7 @@ def extract_activations(
         mask = enc["attention_mask"].unsqueeze(-1).to(hidden.dtype)
         pooled = (hidden * mask).sum(1) / mask.sum(1).clamp(min=1e-9)
         all_vecs.append(pooled)
-    return torch.cat(all_vecs, dim=0)
+    return torch.cat(all_vecs, dim=0).float()
 
 
 def n_layers(model) -> int:

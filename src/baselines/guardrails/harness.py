@@ -29,6 +29,7 @@ default falls back to "whichever label is not the first" for binary heads,
 which is verified against each model's actual config at load time (not
 assumed) via `_resolve_injection_index`.
 """
+# this module provides a uniform interface for scoring text for injection likelihood using various guardrail models.
 
 from __future__ import annotations
 

@@ -121,7 +121,7 @@ class Record:
     injection_type: Optional[str] = None
     meta: dict = field(default_factory=dict)
 
-    @staticmethod
+    @staticmethod # unique id for each record
     def make_id(source_dataset: str, text: str, index: int) -> str: # used for deterministic id generation in ingestion, so that re-running ingestion doesn't change record identity (which matters for the leakage test comparing ids across splits)
         """Deterministic id: identical input always hashes to the same id."""
         h = hashlib.sha256(
@@ -129,7 +129,7 @@ class Record:
         ).hexdigest()
         return f"{source_dataset}-{h[:16]}"
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict: # record to json
         return {
             "record_id": self.record_id,
             "text": self.text,
@@ -142,7 +142,7 @@ class Record:
         }
 
     @staticmethod
-    def from_dict(d: dict) -> "Record":
+    def from_dict(d: dict) -> "Record": # json to record
         return Record(
             record_id=d["record_id"],
             text=d["text"],

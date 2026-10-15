@@ -20,6 +20,7 @@ every batch during training") -- cheap regex check, run every batch, not
 just at data-build time, so a bug anywhere upstream fails loudly during
 training rather than silently producing an invalid result.
 """
+# adamw + cross entropy loss
 
 from __future__ import annotations
 

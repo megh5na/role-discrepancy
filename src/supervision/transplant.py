@@ -172,7 +172,7 @@ def build_swap_test_set(
     return items
 
 
-def build_all_supervision_sets(
+def build_all_supervision_sets( # single entry point in this file
     spans: list[Record],
     transplant_rate: float = 0.5,
     n_swap_pairs_per_label: int = DEFAULT_SWAP_PAIRS_PER_LABEL,

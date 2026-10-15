@@ -53,6 +53,21 @@ can audit every cell -- Section 27 rule 15):
 
   perceived == declared                      -> SEVERITY 0.0 (no mismatch)
 
+CONTINUOUS VARIANT `expected_severity` (adopted from the E6 follow-up, 2026-10-04):
+  score = sum_r P(r) * S[r, declared]
+  The argmax lookup above makes the multiplier jump (to 0 when the argmax equals
+  the declared role even if P(declared) is only ~0.45, or up 2.5x when two roles
+  are close), the suspected source of seed fragility. The expected severity uses the
+  SAME hand-set matrix S with the full probability vector, so it is continuous in
+  the probabilities. If all mass sits on one role r != declared it equals S[r, declared],
+  i.e. the argmax scorer's value; all mass on the declared role scores 0. Evidence
+  (docs/lab_notebook.md, docs/decisions.md): keeps the severity matrix's benefit on
+  realistic benign pools, removes the over-defense seed outliers, and its
+  PRE-REGISTERED LLMail non-inferiority check was CONFIRMED; it does NOT fix BIPIA-only
+  seed fragility. It is now the DEFAULT of `combined_score` (user decision 2026-10-04);
+  `severity_mode="argmax"` selects the original scorer, which the historical E3 scripts
+  pin explicitly so their saved results reproduce exactly.
+
 Ablation hook: `SYMMETRIC_SEVERITY` (all off-diagonal cells = 1.0) is
 provided so Experiment 6's ablation ("symmetric vs asymmetric scoring",
 Section 14) is a one-line swap, not new code.
@@ -63,7 +78,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from src.ingestion.schema import Role
+from src.ingestion.schema import ROLE_ORDER, Role
 from src.scoring.discrepancy import DEFAULT_FORMULATION, base_discrepancy, perceived_role_argmax
 
 COMMAND_LIKE = {Role.USER, Role.SYSTEM}
@@ -103,29 +118,71 @@ def severity(perceived_role: Role, declared_role: Role, use_asymmetry: bool = Tr
     return matrix[(perceived_role, declared_role)]
 
 
+def severity_matrix() -> np.ndarray:
+    """M[perceived_index, declared_index] (ROLE_ORDER indexing) from ASYMMETRIC_SEVERITY."""
+    M = np.zeros((len(ROLE_ORDER), len(ROLE_ORDER)))
+    for i, p in enumerate(ROLE_ORDER):
+        for j, d in enumerate(ROLE_ORDER):
+            M[i, j] = ASYMMETRIC_SEVERITY[(p, d)]
+    return M
+
+
+_SEVERITY_M = severity_matrix()
+
+
+def expected_severity(perceived_probs: np.ndarray, declared_role: Role) -> np.ndarray | float:
+    """sum_r P(r) * S[r, declared]. Accepts one probability vector (returns a float)
+    or a (n, 5) batch (returns shape (n,)). Probabilities are in ROLE_ORDER."""
+    out = np.asarray(perceived_probs) @ _SEVERITY_M[:, ROLE_ORDER.index(declared_role)]
+    return float(out) if out.ndim == 0 else out
+
+
 def combined_score(
     perceived_probs: np.ndarray,
     declared_role: Role,
     formulation: str = DEFAULT_FORMULATION,
     use_asymmetry: bool = True,
+    severity_mode: str | None = None,
 ) -> dict:
-    """THE final discrepancy score (Section 8 C5 output): base mismatch
-    magnitude (discrepancy.py) multiplied by channel-pair severity (this
-    file). Multiplicative, not additive: a channel pair we've judged
+    """THE final discrepancy score (Section 8 C5 output).
+
+    DEFAULT SCORER (since 2026-10-04, user decision): continuous expected severity,
+    score = sum_r P(r) * S[r, declared] (`expected_severity`). `severity_mode=None`
+    resolves to "expected" when use_asymmetry=True and to "argmax" when use_asymmetry=False
+    (the symmetric ablation switches severity off, which the expected form cannot express).
+
+    "argmax" is the ORIGINAL scorer, kept as a named baseline and used by the historical
+    E3 scripts so their saved results reproduce: base mismatch magnitude
+    (discrepancy.py) multiplied by the severity of the argmax perceived role.
+    Multiplicative, not additive: a channel pair we've judged
     near-benign (severity ~0.15) should stay low-scoring even under a large
     probability deficit, and a high-severity pair should scale up with the
     magnitude of the mismatch rather than saturating to a constant flag.
+    In "expected" mode the returned `severity` field is still the ARGMAX cell's
+    severity (informational); `score` is the expected severity.
 
     Returns a dict (not just a float) so callers -- the demo, error
     analysis, Experiment 6's per-channel-pair breakdown -- have the
     perceived-role argmax and the raw base score available without
     recomputing them.
     """
+    if severity_mode is None:
+        severity_mode = "expected" if use_asymmetry else "argmax"
+    if severity_mode not in ("argmax", "expected"):
+        raise ValueError(f"severity_mode must be 'argmax' or 'expected', got {severity_mode!r}")
     base = base_discrepancy(perceived_probs, declared_role, formulation=formulation)
     perceived_role = perceived_role_argmax(perceived_probs)
     sev = severity(perceived_role, declared_role, use_asymmetry=use_asymmetry)
+    if severity_mode == "expected":
+        # continuous expected severity (module docstring); the matrix is the asymmetric one by
+        # definition, so combining it with use_asymmetry=False would be a silent contradiction
+        if not use_asymmetry:
+            raise ValueError("severity_mode='expected' uses the asymmetric matrix; use_asymmetry=False is not supported with it")
+        score = expected_severity(perceived_probs, declared_role)
+    else:
+        score = base * sev
     return {
-        "score": base * sev,
+        "score": score,
         "base_discrepancy": base,
         "severity": sev,
         "perceived_role": perceived_role,

@@ -44,7 +44,7 @@ def extract_all_layers(model, tokenizer, texts: list[str], device: str = "cpu", 
         for layer_idx, hidden in enumerate(out.hidden_states):
             pooled = (hidden * mask).sum(1) / mask.sum(1).clamp(min=1e-9)
             per_layer_vecs[layer_idx].append(pooled)
-    return [torch.cat(v, dim=0) for v in per_layer_vecs]
+    return [torch.cat(v, dim=0).float() for v in per_layer_vecs]
 
 
 def sweep(model_name: str | None = None, n_neutral: int = 40, n_conflict: int = 30):

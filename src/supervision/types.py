@@ -8,6 +8,7 @@ only thing the model ever sees; every other field is bookkeeping used to
 build/balance/audit the construction and is NEVER passed to the model
 (Section 27, Absolute Prohibition A).
 """
+# training and swap pair data classes
 
 from __future__ import annotations
 
