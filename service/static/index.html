@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Role-discrepancy detection</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1>Role-discrepancy detection</h1>
+    <span class="state" id="state"></span>
+  </header>
+
+  <section class="input card">
+    <textarea id="text" rows="3" maxlength="4000" placeholder="Paste a text to check" autofocus></textarea>
+    <div class="tabs" id="declared" role="radiogroup" aria-label="Declared channel"></div>
+    <p class="hint">The channel the app says this text came from.</p>
+    <details class="options">
+      <summary>Options</summary>
+      <dl>
+        <dt>Detector</dt>
+        <dd class="tabs" id="opt-cond"><button data-v="naive">Naive</button><button data-v="transplant">Transplant</button></dd>
+        <dt>Operating point</dt>
+        <dd class="tabs" id="opt-policy"><button data-v="per_channel">Per channel</button><button data-v="pooled">Pooled</button></dd>
+        <dt>Wrap in a carrier</dt>
+        <dd class="tabs" id="opt-carrier"></dd>
+      </dl>
+    </details>
+  </section>
+
+  <section class="result" id="result" data-v="empty" aria-live="polite">
+    <p class="placeholder">Your result appears here.</p>
+    <div class="verdict" id="verdict"></div>
+    <p class="why" id="why"></p>
+    <div class="rolebar" id="rolebar"></div>
+    <div class="legend" id="legend"></div>
+    <p class="figures" id="figures"></p>
+    <div class="wrapped" id="wrapped" hidden></div>
+    <p class="error" id="error" hidden></p>
+  </section>
+
+  <section id="cases" class="card">
+    <div class="head"><h2>Examples from real data</h2><button class="link" id="only-wrong">Show only the wrong ones</button></div>
+    <p class="hint">Drawn at random with a fixed seed. Nothing was removed for looking bad.</p>
+    <ol class="list" id="list"></ol>
+  </section>
+
+  <section id="destyle" class="dark">
+    <h2>One attack, softened</h2>
+    <p class="hint">Softening the wording lowers the score for most attacks, and also stopped them working: 12 of 72 succeeded as written, 2 of 72 at 0.5, 0 of 72 at 1.0.</p>
+    <div class="tabs" id="attack-pick"></div>
+    <div class="levels" id="levels"></div>
+  </section>
+
+  <section id="limits" class="tint">
+    <h2>Known limits</h2>
+    <ul>
+      <li>Benign documents that quote a request are flagged 93 to 99% of the time, by every scorer we tried.</li>
+      <li>False-alarm rates on benign role-mixed text range from 0.18 to 0.83 depending on the cell.</li>
+      <li>Transplant is robust to carrier formatting but is not the better detector. At the document threshold the naive ensemble flags 83% of attacks and the transplant ensemble 58%.</li>
+      <li>Tool and reasoning channels have no reliable threshold, so no verdict is shown for them.</li>
+    </ul>
+  </section>
+</main>
+<script src="/static/app.js"></script>
+</body>
+</html>
