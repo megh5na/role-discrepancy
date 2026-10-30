@@ -1,23 +1,3 @@
-"""
-src/evaluation/over_defense.py
-
-NEW measurement (Section 6 NEW-3, Experiment 6 — "FIRST measurement of the
-benign role-mismatch rate on legitimate traffic... A novel measurement
-regardless of its value"). Architecture component: C10.
-
-Computes the false-positive / benign-mismatch rate, OVERALL and BROKEN DOWN
-BY CHANNEL PAIR (perceived_role, declared_role) -- the breakdown is what
-turns "our FPR is X%" into something actionable: Section 6 NEW-2's whole
-argument for asymmetric severity is that mismatch concentrates in specific,
-mostly-benign channel-pair directions (e.g. perceived=DOCUMENT under
-declared=USER, someone pasting an email) rather than uniformly.
-
-This module is detector-agnostic: it takes a set of already-computed
-(perceived_role, declared_role, flagged) triples and aggregates them. The
-discrepancy scorer (src/scoring/) or a guardrail baseline both produce
-inputs in this shape.
-"""
-
 from __future__ import annotations
 
 from collections import defaultdict

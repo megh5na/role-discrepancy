@@ -1,26 +1,3 @@
-"""
-experiments/exp07_adaptive/run_multi_target.py
-
-E7 multi-target extension (decisions.md, "PLANNED -- E7 sub-experiment: multi-target-model ASR").
-EXISTING: destyling rewriter, target prompt, judge prompt and CallBudget from src/attacks (reused
-unchanged). OUR CONTRIBUTION: running the same destyled variants against SEVERAL target models and
-reporting ASR per model next to our detector's score on the same variants.
-
-Design (so differences are attributable to the TARGET only):
-  * ONE rewriter and ONE judge for every target (config `multi_target`).
-  * Each (attack, level) is destyled ONCE; every target sees the identical variant text.
-  * Attacks are sampled as UNIQUE strings, stratified over BIPIA injection_type (the 1,500 injected
-    records are only 125 distinct strings; sampling records would double count).
-  * Our detector is scored locally on every variant with all six checkpoints (naive/transplant x
-    seeds 42/123/456); the five-way role probabilities are SAVED so any scoring rule can be applied
-    offline (asym, cont_exp). No threshold is applied here.
-Resumable: variants and per-target rows are appended as they complete; a rerun skips finished work,
-so a crash never repeats paid calls. CallBudget is a hard stop checked before every call.
-
-Usage: python -m experiments.exp07_adaptive.run_multi_target [--smoke N] [--targets a,b]
-  --smoke N  uses N attacks and writes to mt_smoke_* files (verifies every provider call shape first).
-"""
-
 from __future__ import annotations
 
 import argparse

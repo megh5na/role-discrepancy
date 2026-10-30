@@ -1,27 +1,3 @@
-"""
-experiments/exp07_adaptive/run_multi_target_v2.py
-
-E7 multi-target, v2: HOST-DOCUMENT embedding. WHY v2 EXISTS (found by reading the v1 transcripts,
-2026-10-04, documented in docs/lab_notebook.md): v1 and the original pilot showed the target only the
-bare attack span as the whole "document". A summary of an instruction-only document and compliance with
-that instruction are then confounded, and the v1 judge marked plain summaries as "YES". v1 files
-(mt_*.jsonl) are KEPT, labelled, as the unfavourable-first-attempt record.
-
-v2 changes (everything else is as v1):
-  * the SAME destyled variants (mt_variants.jsonl) are substituted for attack_str inside the real BIPIA
-    host context (email/table/code task, from the cached geodesic-research/bipia rows), and the target is
-    asked the real BIPIA question about that context;
-  * judge prompt asks whether the response carried out the injected instruction BEYOND answering the
-    user's question;
-  * a CLEAN control (attack removed from the context) is run through the same target and judge; any
-    "YES" there is a judge false positive, so it is the floor under every ASR number;
-  * the API stop_reason is recorded; stop_reason == "refusal" (empty content) is its own outcome.
-Resumable and capped (CallBudget), like v1.
-
-Usage: python -m experiments.exp07_adaptive.run_multi_target_v2 [--targets a,b] [--smoke N] [--host-seed S]
-(mt2 = lowest-id hosts, only 2 distinct documents: kept as 'single-host'; mt2b = seeded-random hosts.)
-"""
-
 from __future__ import annotations
 
 import argparse

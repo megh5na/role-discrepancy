@@ -1,28 +1,3 @@
-"""
-experiments/ablation_severity/run_severity_seeds.py
-
-Step 2 of the severity ablation: the seed-42 ablation (run_severity_ablation.py)
-is single-seed, and seed 42 was the weakest seed for both conditions. This
-retrains the four checkpoints whose role PROBABILITIES were never saved (seeds
-123 and 456, naive and transplant) and saves probabilities for all 12
-conditions, so every scoring variant can be evaluated on all six models.
-
-Recipe and seeds are identical to run_exp03_seeds.py (full 6,317-example set,
-split seed 7, 5,686/631, batch 8, max_length 32, 2 epochs; only the training
-seed varies). Training is deterministic per seed (E2/E2b reproduced exactly),
-so each retrained model should be the SAME model the seed study scored. Built-in
-check: the default (asymmetric) scorer computed from the new probabilities must
-reproduce the scores_exp03_wrapped_seed{N}_{condition}.npz saved by the seed
-study, and the validation-accuracy history must match seed_study_train_meta.json.
-Differences are reported, not hidden.
-
-Per job: train -> save checkpoint -> probabilities for 12 conditions -> save
--> determinism check -> delete checkpoint (disk ~97% full). Resume-safe.
-
-Outputs (this directory): probs_{condition}_s{seed}.npz, severity_seeds_meta.json
-Usage: python -m experiments.ablation_severity.run_severity_seeds [--smoke] [--keep]
-"""
-
 from __future__ import annotations
 
 import os

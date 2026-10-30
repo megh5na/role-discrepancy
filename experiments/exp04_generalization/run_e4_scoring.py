@@ -1,12 +1,3 @@
-"""
-experiments/exp04_generalization/run_e4_scoring.py
-
-Score the LLMail short set (build_e4_sets.py) with the six role encoders (saving
-role probabilities; each checkpoint must first reproduce its saved BIPIA probabilities,
-as in run_e6_scoring) and with the two guardrails. BIPIA per-family inputs reuse the
-already saved BIPIA probabilities/scores, so nothing else needs scoring.
-Outputs: e4_probs_<model>.npz (array `llmail`), e4_guardrail_scores.npz.
-"""
 from __future__ import annotations
 
 import os

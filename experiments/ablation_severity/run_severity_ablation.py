@@ -1,24 +1,3 @@
-"""
-experiments/ablation_severity/run_severity_ablation.py
-
-Step 1 of the severity ablation: score the saved checkpoints once and SAVE
-THE 5-WAY ROLE PROBABILITIES for every span in all 12 conditions (bare, 5
-known carriers, 6 novel wrappers; 549 unique benign + 120 unique injected
-BIPIA strings, same inputs as run_exp03_wrapped.py). The earlier runs only
-saved final scores, which cannot be re-scored under a different rule.
-Every scoring variant (analyze_severity_ablation.py) is then computed offline
-from the SAME probabilities, so the only thing that differs between variants
-is the scoring rule.
-
-Checkpoints used: the seed-42 naive and transplant checkpoints, the only ones
-still on disk (the seed-study checkpoints were deleted after scoring). Seed
-42 is the weakest-looking seed for both conditions in the earlier seed study,
-so this is a single-seed ablation and must be read as such.
-
-Outputs: probs_naive_s42.npz, probs_transplant_s42.npz in this directory
-(keys <cond>__benign / <cond>__injected, arrays of shape (n, 5) in ROLE_ORDER).
-"""
-
 from __future__ import annotations
 
 import os

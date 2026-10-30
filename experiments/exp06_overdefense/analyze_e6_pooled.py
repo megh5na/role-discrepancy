@@ -1,23 +1,3 @@
-"""
-experiments/exp06_overdefense/analyze_e6_pooled.py
-
-Joint detection / over-defense view. analyze_e6.py fixes the threshold on matched
-controls. Here the question is separability: BIPIA injected strings (120, declared
-DOCUMENT) versus three different pools of BENIGN traffic, scored by the same
-scorer, with the threshold recalibrated on each pool (so this measures how well
-the score ORDERS attacks above benign traffic, not a deployment threshold):
-
-  bipia_benign   549 benign BIPIA strings (the pool E3 used)
-  same_channel   benign traffic in the attacks' own channel: BIPIA benign +
-                 control_document + the 3 document_* mixed cells (legitimate
-                 documents that quote requests, directives or worked solutions)
-  all_benign     every benign record: BIPIA benign + all 18 corpus cells + NotInject
-
-Metrics: AUROC and TPR at 5% FPR; bootstrap over records (threshold re-derived,
-shared resample, paired across scorers/models). Same caveats as analyze_e6.py:
-corpus is benign by construction, record-level intervals only, no seed uncertainty
-in them. Scorers: asym (shipped) and none (severity-free).
-"""
 from __future__ import annotations
 
 import json

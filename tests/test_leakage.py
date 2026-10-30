@@ -1,17 +1,3 @@
-"""
-tests/test_leakage.py
-
-*** FAILS if any test span appears in training *** (Section 17 repository
-conventions; Section 27 rule 10). This is the single test named explicitly,
-by filename, in the spec's own repository structure.
-
-Checks the ACTUAL files written by src/supervision/build_supervision_sets.py
-under data/processed/. Skips (does not silently pass) if those files haven't
-been built yet in this environment, mirroring test_schema.py's pattern --
-but note the skip is loud (reason printed), not a silent pass, and CI/local
-runs that have built the data will always exercise the real check.
-"""
-
 import sys
 from pathlib import Path
 

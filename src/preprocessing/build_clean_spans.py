@@ -1,16 +1,3 @@
-"""
-src/preprocessing/build_clean_spans.py
-
-NEW pipeline glue (Section 8, C2) wiring together strip -> segment -> dedup.
-Runs the full C2 stage: raw/interim records -> clean, span-level, delimiter-
-free, deduplicated records ready for C3 (supervision construction).
-
-Usage:
-    python -m src.preprocessing.build_clean_spans \
-        --in data/interim/register_sources.jsonl \
-        --out data/interim/clean_spans_register.jsonl
-"""
-
 from __future__ import annotations
 
 import argparse

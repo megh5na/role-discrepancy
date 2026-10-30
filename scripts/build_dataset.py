@@ -1,17 +1,3 @@
-"""
-scripts/build_dataset.py
-
-Single entry point for C1 + C2: raw -> ingested -> clean spans, in one
-command (previously two separate
-commands). Idempotent-ish: re-running re-downloads/re-derives everything;
-this is a laptop-scale project without a need for incremental caching logic
-beyond what `datasets` already does internally.
-
-Usage:
-    python scripts/build_dataset.py
-    python scripts/build_dataset.py --skip-injection-corpora  # faster iteration on C3+ only
-"""
-
 from __future__ import annotations
 
 import argparse

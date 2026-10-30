@@ -1,19 +1,3 @@
-"""
-src/evaluation/significance.py
-
-EXISTING statistical techniques (paired bootstrap, McNemar's test), NEW
-application. Architecture component: C10/F8 (Section 8, Section 15
-"STATISTICAL TESTING").
-
-Why this exists, quoting the spec directly: "Paired bootstrap over test
-samples for TPR differences between our method and each baseline; report
-confidence intervals, not just point estimates" and "McNemar's test for
-paired binary decisions where appropriate." Single point-estimate
-comparisons ("we got 0.71, they got 0.68") are not defensible in a viva
-without an uncertainty estimate -- especially given Fomin's documented high
-seed variance in this exact setting (Section 15).
-"""
-
 from __future__ import annotations
 
 import numpy as np

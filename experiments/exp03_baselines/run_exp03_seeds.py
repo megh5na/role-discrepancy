@@ -1,32 +1,3 @@
-"""
-experiments/exp03_baselines/run_exp03_seeds.py
-
-Seed study for E3-naive / E3-wrapped. Those results came from ONE training
-seed (42) per checkpoint, and E2 showed large seed-to-seed swings, so seed
-uncertainty was unmeasured. This trains the naive and transplant checkpoints
-at additional seeds and scores each on the same 12 wrapped conditions
-(bare + 5 known carriers + 6 novel wrappers) as run_exp03_wrapped.py.
-
-Recipe is identical to the seed-42 production checkpoints (full 6,317-example
-set, split seed 7, 5,686/631, batch 8, max_length 32, 2 epochs). ONLY the
-training seed (classifier-head init, data order, dropout) changes; the
-train/val split and the data are fixed, so this isolates training randomness
-and does not measure sensitivity to the data split.
-
-Per job: train -> save checkpoint -> score all conditions -> save scores ->
-delete the checkpoint (disk is ~97% full; training is deterministic per seed,
-so a checkpoint can be regenerated). Resume-safe: a job whose scores file
-exists is skipped; a job whose checkpoint exists but has no scores is only
-scored. Use --keep to retain checkpoints.
-
-Outputs: scores_exp03_wrapped_seed{N}_{condition}.npz (keys <cond>__benign /
-<cond>__injected), train histories in seed_study_train_meta.json.
-
-Usage:
-    python -m experiments.exp03_baselines.run_exp03_seeds
-    python -m experiments.exp03_baselines.run_exp03_seeds --smoke
-"""
-
 from __future__ import annotations
 
 import os

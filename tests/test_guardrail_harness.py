@@ -1,6 +1,3 @@
-"""tests/test_guardrail_harness.py -- offline tests for the label-resolution
-logic in src/baselines/guardrails/harness.py (no model download needed)."""
-
 import sys
 from pathlib import Path
 

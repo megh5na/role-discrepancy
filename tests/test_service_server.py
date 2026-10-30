@@ -1,5 +1,3 @@
-"""tests/test_service_server.py -- demo server logic (service/server.py): request validation, carrier wrap, one-detector-in-memory
-holder. Uses fake scorers; no model is loaded."""
 import sys
 from pathlib import Path
 

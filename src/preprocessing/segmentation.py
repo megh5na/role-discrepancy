@@ -1,23 +1,3 @@
-"""
-src/preprocessing/segmentation.py
-
-NEW (standard technique -- pysbd sentence boundary detection -- applied to
-project-specific requirements). Section 8, C2.
-
-Splits cleaned record text into spans for the encoder to see. Granularity is
-a config switch, not two code paths: sentence-level is
-the current default (localises injections better, per Section 10's own
-tradeoff note), message-level (the whole record as one span) is available
-for the granularity ablation (Section 14) without new code.
-
-Also applies length filtering: spans that are too short carry little
-register signal (a 2-token span could be almost anything); spans that are
-too long dilute it and stop being a "span" in the sense the discrepancy
-scorer expects. Bounds follow the spec's stated typical range (Section 11:
-"10-200 tokens typical") using whitespace-token count as a cheap proxy for
-model tokens (avoids importing a tokenizer this early in the pipeline).
-"""
-
 from __future__ import annotations
 
 from dataclasses import replace

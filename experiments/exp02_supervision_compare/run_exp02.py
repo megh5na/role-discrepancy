@@ -1,34 +1,3 @@
-"""
-experiments/exp02_supervision_compare/run_exp02.py
-
-Experiment 2 -- LEAVE-ONE-DATASET-OUT (LODO) SUPERVISION COMPARISON.
-Config: configs/experiment/exp02_lodo.yaml (read that file's comments for
-the full research justification -- not duplicated here).
-
-QUESTION THIS ANSWERS: does the transplant construction's E1 advantage
-survive when an entire SOURCE CORPUS is held out at test time, or does it
-(like naive labelling) partly depend on corpus-specific surface style that
-E1's same-corpus swap test couldn't detect?
-
-For each valid LODO fold (a source_dataset belonging to a multi-sourced
-label):
-  1. Remove every record from that corpus -- train pool now has ZERO
-     examples of that corpus's writing style, though the label itself
-     still has its other corpus's examples.
-  2. Build naive_control / transplant_train supervision sets from the
-     TRAIN pool only (src/supervision/transplant.py, unmodified).
-  3. Train the DeBERTa encoder under both conditions, plus a TF-IDF+LR
-     control (same falsification-test role as in E1).
-  4. Evaluate ALL THREE on the HELD-OUT CORPUS's own text -- text the
-     model has never seen a single example of, from a corpus it has never
-     seen any example of, all genuinely sharing the same true label.
-
-Metric: held_out_accuracy = fraction of the held-out corpus's spans
-correctly classified as their true label. If naive's E1 advantage was
-partly corpus fingerprinting, naive should show a LARGER drop here than
-transplant, relative to each condition's own E1-style native accuracy.
-"""
-
 from __future__ import annotations
 
 import os

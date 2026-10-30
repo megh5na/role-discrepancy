@@ -1,26 +1,3 @@
-"""
-experiments/exp03_baselines/run_exp03_naive.py
-
-E3-naive: does the transplant construction cause the detection result, or
-would a naive-trained encoder, scored by the SAME discrepancy scorer, do as
-well? The original E3 only ever scored the transplant checkpoint, so that
-claim was untested.
-
-Scores the transplant checkpoint (perceived_role_v1) and the naive
-checkpoint (perceived_role_v1_naive; train_naive_checkpoint.py) on the SAME
-BIPIA spans E3 used (first 800 benign / 800 injected after delimiter
-stripping), through the SAME scorer (src/scoring/asymmetry.combined_score,
-declared role DOCUMENT, asymmetric severity). Optionally re-scores the
-guardrails so every detector has saved per-span scores and can be compared
-in a paired way.
-
-Outputs (this directory):
-  results_exp03_naive.json   matched-FPR TPRs, AUROC, paired tests, role breakdown
-  scores_exp03_naive.npz     raw per-span scores for every detector
-The transplant row is a reproducibility check against results.json from the
-first E3 (0.170 @1% FPR, 0.547 @5% FPR).
-"""
-
 from __future__ import annotations
 
 import os

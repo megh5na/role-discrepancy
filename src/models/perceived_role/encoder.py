@@ -1,25 +1,3 @@
-"""
-src/models/perceived_role/encoder.py
-
-EXISTING architecture, UNMODIFIED (Section 11: "CONSTRAINT: DO NOT modify
-the backbone architecture. Any claim of architectural novelty is false and
-will be caught."). Backbone = DeBERTa-v3-base (resolved TO-BE-DECIDED), mean-pooling, one linear classification head -- all
-off-the-shelf. The novelty of this project lives in what this model is
-TRAINED ON (src/supervision/) and how its output is USED (src/scoring/), not
-in this file.
-
-Architecture component: C4 (Section 8).
-
-*** ABSOLUTE PROHIBITION A (Section 27) ENFORCED HERE ***: `forward()` takes
-ONLY input_ids/attention_mask produced from `text`. There is no code path in
-this class that can accept a declared_role, a channel id, or a delimiter
-token as a feature. Adding one -- even for debugging -- would make the
-downstream discrepancy comparison (declared vs. perceived role) circular,
-which would silently invalidate the entire project. Anyone modifying this
-file must not add such a path without flagging it first, per Section 27
-rule 16.
-"""
-# 183,835,397 parameters, 12 layers, 768 hidden, 12 heads, 512 max seq length, 64k vocab
 from __future__ import annotations
 
 import torch

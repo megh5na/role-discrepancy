@@ -1,24 +1,3 @@
-"""
-src/ingestion/schema.py
-
-EXISTING (standard dataclass/enum patterns) — no research novelty here.
-Architecture component: C1, Data Ingestion (Section 8/17).
-
-Defines the single unified record format every raw corpus gets normalised
-into. Every downstream stage (preprocessing, supervision construction,
-training, evaluation) assumes this schema and only this schema.
-
-Why this file exists (from the spec, Section 8, C1):
-Four injection corpora, ~6 register-source corpora, and a benign role-mixed
-corpus we construct ourselves all disagree about structure — different
-column names, different nesting, different ideas of what a "turn" is.
-Normalising them once here means every later stage (delimiter stripping,
-transplantation, LODO splitting, the leakage test) is written once instead
-of once per source.
-
-Read this file first (per Section 17 repository conventions).
-"""
-
 from __future__ import annotations
 
 import hashlib

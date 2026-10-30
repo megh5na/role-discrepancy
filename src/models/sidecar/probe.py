@@ -1,17 +1,3 @@
-"""
-src/models/sidecar/probe.py
-
-EXISTING technique (logistic regression on frozen activations = "linear
-probe", Section 2 term definition), NEW integration for our 5-role
-vocabulary. Architecture component: C7.
-
-Trains a multiclass logistic-regression probe on activations extracted at
-a fixed layer (src/models/sidecar/hooks.py) from the wrapper construction
-(wrapper_construction.py). The probe's predict_proba for the USER and
-REASONING classes are exactly Ye et al.'s "Userness" and "CoTness" readouts
-(Section 2: "Userness, CoTness) as probe output probabilities").
-"""
-
 from __future__ import annotations
 
 import numpy as np

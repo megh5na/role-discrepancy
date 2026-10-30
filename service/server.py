@@ -1,19 +1,3 @@
-"""
-service/server.py
-
-Local demo server (standard library only, no new dependencies). Serves the demo page in service/static and a small JSON API
-around RoleDiscrepancyScorer (service/scorer.py):
-
-  GET  /api/health      which detector is loaded, whether one is loading
-  GET  /api/cases       service/demo_cases.json (32 cases from real data, seeded random selection, failures kept)
-  GET  /api/thresholds  service/thresholds.json (pooled and per-channel thresholds with their measured behaviour)
-  POST /api/score       {text, declared, condition, policy, carrier?} -> bare result (+ wrapped result if a carrier is chosen)
-
-Memory: one DeBERTa-base ensemble (3 seeds) is about 3.3 GB peak on this machine, so only ONE condition is held in memory;
-switching condition unloads the other and takes about 16 s (the page tells the user). Requests are serialized by a lock.
-Binds to 127.0.0.1 only. Run:  python -m service.server [--port 8765] [--condition naive]
-"""
-
 from __future__ import annotations
 
 import argparse

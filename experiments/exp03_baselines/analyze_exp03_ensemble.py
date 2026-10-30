@@ -1,25 +1,3 @@
-"""
-experiments/exp03_baselines/analyze_exp03_ensemble.py
-
-Seed ensembles for the E3 family. Single trained checkpoints vary enormously
-with the training seed (bare AUROC 0.57 to 0.95 within one condition), so a
-single checkpoint is a noisy representative of its condition. Averaging the
-discrepancy scores of all three seeds per condition gives one score per span
-per condition WITHOUT selecting any seed (all seeds are used, none is chosen
-by its BIPIA performance, so there is no selection on the test corpus).
-
-  ens_naive       = per-span mean over naive seeds 42, 123, 456
-  ens_transplant  = per-span mean over transplant seeds 42, 123, 456
-
-Evaluation mirrors run_exp03_wrapped.py (12 conditions, 5% FPR, threshold
-re-derived inside every resample of UNIQUE strings, one shared resample so
-differences are paired) and additionally compares bare detection with the two
-guardrails. Intervals cover STRING sampling only; each ensemble is a single
-model-set, so seed-level replication of the ensemble itself is not available.
-Sensitivity: leave-one-seed-out ensembles (size 2) per condition, to show how
-much each result depends on which seeds are in the ensemble.
-"""
-
 from __future__ import annotations
 
 import json

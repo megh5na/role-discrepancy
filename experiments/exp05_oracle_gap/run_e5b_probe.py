@@ -1,23 +1,3 @@
-"""
-experiments/exp05_oracle_gap/run_e5b_probe.py
-
-E5b: white-box register probe and the oracle gap. Design, validity guard and interpretation rule were pre-registered in docs/decisions.md
-("PRE-REGISTRATION: E5b ...") before this script was written or run.
-
-NOT a reproduction of the prior work: the probe is trained on REGISTER-labelled text (the project's own naive_control and transplant_train sets, no role tags) and
-used as a small-model oracle for how well a white-box linear reader recovers register, next to our black-box DeBERTa encoder.
-
-EXISTING (reused): sidecar model loading, all-layer mean-pooled activation extraction, the logistic-regression probe, the 5,686 / 631 train/validation split recipe
-(split seed 7, as the encoders), the 600 swap pairs, the E1 re-run as the encoder reference.
-NEW: this driver. Layer is chosen by VALIDATION accuracy only, never on the swap pairs. Evaluation is the E1 metric trio (native acc, foreign acc, swap consistency).
-Interpretation rule (fixed before running): per training condition, probe minus encoder mean on swap consistency (and the same rule on foreign accuracy):
->= +0.05 oracle ahead; within +/-0.05 no oracle advantage; <= -0.05 encoder ahead. Guard: validation accuracy at the selected layer >= 0.60, else the gap is undefined.
-SECONDARY (descriptive): probe on the conflict set (reasoning-register content under <user> tags; expected to follow content BY CONSTRUCTION, not evidence about the
-prior work); probe-based detection AUROC on BIPIA-only negatives next to the encoder ensembles under the same scorer.
-
-Usage: python -m experiments.exp05_oracle_gap.run_e5b_probe [model_name] [tag]     (default SmolLM2-360M-Instruct, tag 360m)
-"""
-
 from __future__ import annotations
 
 import json

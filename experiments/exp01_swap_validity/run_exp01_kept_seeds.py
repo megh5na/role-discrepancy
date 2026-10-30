@@ -1,23 +1,3 @@
-"""
-experiments/exp01_swap_validity/run_exp01_kept_seeds.py
-
-E1 re-run over the SIX kept checkpoints (naive / transplant x seeds 42, 123, 456), no training.
-EXISTING: swap_consistency metric and the 600 held-out swap-test pairs (1,200 texts) from the original E1
-(src/evaluation/metrics.py, data/processed/swap_test_pairs.jsonl); exact 3v3 permutation test reused from
-analyze_exp03_seeds_perm.py. NEW: this scoring script and the pre-registered decision rule.
-
-Criteria were written to docs/decisions.md ("PRE-REGISTRATION: E1 re-run over the six kept checkpoints")
-BEFORE this script was run, and are applied mechanically below:
-  REPLICATED       all 3 seed-wise (transplant - naive) differences > 0 AND mean difference >= 0.10
-  NOT REPLICATED   fewer than 2 of 3 differences > 0, OR mean difference < 0.05
-  INCONCLUSIVE     anything else
-Uncertainty: exact seed-level permutation test (min p 0.05 one-sided / 0.10 two-sided at 3 v 3), and a
-paired bootstrap over the 600 pairs (resamples pairs; does NOT cover training-seed variation).
-Same predict protocol as the original E1: argmax role, max_length 32.
-
-Outputs: results_kept_seeds.json, preds_kept_seeds.npz (per-model per-pair predictions).
-"""
-
 from __future__ import annotations
 
 import os

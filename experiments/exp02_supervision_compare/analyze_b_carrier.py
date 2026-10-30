@@ -1,22 +1,3 @@
-"""
-experiments/exp02_supervision_compare/analyze_b_carrier.py
-
-Analysis of E2b (results_b_carrier.json). First use of src/evaluation/
-significance.py on real results.
-
-What is and is not testable here:
-  * Per-span correctness (bare and wrapped) was saved, so naive vs transplant
-    accuracy can be tested PAIRED: both conditions were scored on the same
-    spans with the same seed. Done per seed, pooled across folds.
-  * Bare/wrapped LABEL AGREEMENT was saved only as a per-run fraction, not per
-    span, so it cannot be bootstrapped over spans. It is tested at the level
-    of runs/folds instead (sign test), which is far coarser: the 6 folds, not
-    the thousands of spans, are the independent units.
-Pooled span-level tests treat spans within a fold as independent and weight
-folds by size, so they overstate certainty. They are reported with that
-caveat, alongside the fold-level view.
-"""
-
 from __future__ import annotations
 
 import json

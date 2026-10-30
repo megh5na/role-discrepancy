@@ -1,12 +1,3 @@
-"""
-src/models/perceived_role/inference.py
-
-NEW glue: wraps a trained PerceivedRoleEncoder as a
-`predict_fn: list[str] -> list[Role]`, the same interface the TF-IDF
-baseline exposes (src/baselines/simple/tfidf_baseline.py), so
-src/evaluation/metrics.py can evaluate either one identically.
-"""
-# basically, this is the "inference" half of the model, which is separate from the training half (src/models/perceived_role/train.py) because we want to be able to load a trained model and run it on new data without having to re-run training code.
 from __future__ import annotations
 
 import torch

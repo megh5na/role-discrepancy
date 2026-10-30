@@ -1,7 +1,3 @@
-"""tests/test_sidecar_probe.py -- offline test for the sidecar's linear
-probe (catches sklearn-version regressions like the removed `multi_class`
-kwarg, found running validate.py for the first time)."""
-
 import sys
 from pathlib import Path
 

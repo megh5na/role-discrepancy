@@ -1,19 +1,3 @@
-"""
-src/models/sidecar/layer_sweep.py
-
-DIAGNOSTIC, not part of the main C7 pipeline. Both validate.py and
-validate_native_template.py showed the conflict-condition probe following
-the wrapper tag at layer 21/30 (a single heuristically-chosen layer,
-`layer_fraction=0.7`). Before concluding the mechanism doesn't reproduce at
-all on this substitute model, check whether SOME OTHER layer shows
-content-following behaviour -- cheap to check because `output_hidden_states
-=True` already computes every layer in one forward pass; we were just
-discarding all but one.
-
-Runs on a SMALL subset (fast diagnostic, not the full validation N) purely
-to see whether the effect appears ANYWHERE across depth.
-"""
-
 from __future__ import annotations
 
 import torch

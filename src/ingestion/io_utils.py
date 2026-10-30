@@ -1,10 +1,3 @@
-"""
-src/ingestion/io_utils.py
-
-EXISTING — plain jsonl read/write helpers. No research content.
-Used by every loader in src/ingestion/ to persist Records to data/interim/.
-"""
-
 from __future__ import annotations
 
 import json

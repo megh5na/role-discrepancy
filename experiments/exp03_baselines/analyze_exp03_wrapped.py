@@ -1,24 +1,3 @@
-"""
-experiments/exp03_baselines/analyze_exp03_wrapped.py
-
-Follow-up analysis of E3-wrapped from the saved per-span scores
-(scores_exp03_wrapped.npz); needs no models.
-
-The question E3-wrapped exists to answer is whether the NAIVE detector
-degrades more than the TRANSPLANT detector when attacks are wrapped. That is
-a difference-in-differences, so it needs the bootstrap draws (run_exp03_
-wrapped.py only saved summaries):
-
-    drop_d(metric)  = metric_d(bare) - metric_d(wrapped unit)
-    DiD(metric)     = drop_naive - drop_transplant        (> 0: naive degrades more)
-
-Also reports false-alarm inflation (benign FPR under the bare-calibrated
-threshold minus its bare value), where larger means more false alarms.
-Same resampling scheme and seed as run_exp03_wrapped.py (unique strings,
-threshold re-derived inside every resample, one resample shared by both
-detectors).
-"""
-
 from __future__ import annotations
 
 import json

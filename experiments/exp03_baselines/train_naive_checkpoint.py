@@ -1,23 +1,3 @@
-"""
-experiments/exp03_baselines/train_naive_checkpoint.py
-
-Trains the NAIVE-condition production checkpoint for E3-naive: the control
-that tests whether the transplant construction is what makes the detector
-work, not just the existence of a fine-tuned DeBERTa.
-
-Recipe is a deliberate copy of experiments/exp01_swap_validity/
-train_production_checkpoint.py, which produced the transplant checkpoint
-used in E3: full set (6,317 examples), same shuffle seed (7) and 90/10
-split, TrainConfig(batch_size=8, max_length=32, n_epochs=2, seed=42). The
-ONLY difference is the data file (naive_control.jsonl vs
-transplant_train.jsonl). naive_control is built from the same balanced span
-pool as transplant_train, so the two differ only in the construction.
-
-Usage:
-    python -m experiments.exp03_baselines.train_naive_checkpoint
-    python -m experiments.exp03_baselines.train_naive_checkpoint --smoke   # tiny, writes to /tmp
-"""
-
 from __future__ import annotations
 
 import os

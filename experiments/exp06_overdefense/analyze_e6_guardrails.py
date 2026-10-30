@@ -1,23 +1,3 @@
-"""
-experiments/exp06_overdefense/analyze_e6_guardrails.py
-
-Guardrails vs the role-discrepancy detectors on the SAME benign pools, closing
-the gap that "beats the guardrails" had only been shown against BIPIA benign
-negatives. Detectors: ProtectAI v2, third-party DeBERTa (single score per text, no
-declared role) vs our ensembles (mean of 3 seeds, asymmetric and severity-free
-scorers) and the six single models (asymmetric).
-
-A. Deployment-like operating point (analyze_e6.metrics): ONE threshold per
-   detector, set so 5% of the pooled matched CONTROL cells are flagged (realized
-   control FPR is reported: guardrail scores are near-binary, so ties can make
-   it differ from 5%). Reported: FPR on mixed cells, NotInject, BIPIA benign;
-   TPR on BIPIA injected.
-B. Separability (analyze_e6_pooled): BIPIA injected vs three benign pools,
-   threshold re-fit per pool; AUROC and TPR@5% FPR.
-Bootstrap over records, threshold re-derived inside each resample, one resample
-shared by all detectors. Record-level intervals only (no seed uncertainty).
-Corpus is benign by construction; see analyze_e6.py.
-"""
 from __future__ import annotations
 
 import json

@@ -1,12 +1,3 @@
-"""
-tests/test_supervision.py
-
-Offline, deterministic tests for C3 (src/supervision/) using small synthetic
-Record sets -- no internet / dataset download required, so these run in any
-environment (unlike the file-based check in test_schema.py which needs the
-built data).
-"""
-
 import sys
 from pathlib import Path
 

@@ -1,21 +1,3 @@
-"""
-experiments/exp07_adaptive/analyze_e7_multi.py
-
-EXPERIMENT E7 (multi-target). QUESTION: as an attacker destyles an injected instruction, (a) does our
-detector's score fall, and (b) does the attack still work on several target LLMs?
-SETUP: 24 unique BIPIA attack strings (6 per injection_type) x destyling levels 0.0/0.5/1.0, each variant
-generated once by one rewriter and shown identically to every target; judged by one judge. v1 = bare span
-as the whole document (confounded, kept); v2 = variant embedded in its real BIPIA host document with the
-real question, plus a clean (attack-removed) control that measures the judge's false-positive floor.
-METRICS: ASR = judged successes / n per (target, condition) with the raw counts; refusals counted separately;
-detector: mean score and detection rate at the threshold giving 5% FPR on the 549 BIPIA benign strings
-(declared DOCUMENT), for naive / transplant seed ensembles under asym and cont_exp, plus the pilot scorer
-(transplant seed 42, asym). Exact two-sided McNemar tests per target (level 0.0 vs 1.0), n = 24.
-LIMITATIONS: n = 24 attacks (counts 0-6, not rates to over-read); one rewriter and one judge (both Claude,
-and all targets in this run are Claude); judge is an LLM, validated only by the clean control and by reading
-transcripts; the detector scores the bare span, not the span inside the host document.
-"""
-
 from __future__ import annotations
 
 import json

@@ -1,24 +1,3 @@
-"""
-experiments/exp02_supervision_compare/run_exp02b_carrier.py
-
-Experiment 2b -- LODO with a CARRIER-WRAPPED evaluation.
-Config: configs/experiment/exp02b_lodo_carrier.yaml (read its comments for the
-justification).
-
-QUESTION: E2 showed how naive and transplant models do on a held-out corpus
-shown bare. That never tests the thing transplant is built for. Here every
-trained model is evaluated on the SAME held-out spans twice, bare and wrapped
-in a foreign channel's carrier, so we can ask:
-  1. does the bare result from E2 hold up with the same models?
-  2. which condition keeps its accuracy when the held-out text is wrapped?
-  3. how often does a model give the same answer for the bare and wrapped
-     version of the same unseen span (swap-consistency analogue)?
-
-Training is identical to E2 (same folds, supervision sets, budget, seeds), so
-the two experiments differ only in how the trained models are evaluated.
-Results go to results_b_carrier.json, never to E2's results.json.
-"""
-
 from __future__ import annotations
 
 import os

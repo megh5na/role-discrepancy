@@ -1,27 +1,3 @@
-"""
-src/attacks/destyle.py
-
-*** OUR CONTRIBUTION for E7 (NEW) *** -- the attacker-side half of the
-adaptive-attack experiment (Section 8 C11). Config: configs/experiment/
-exp07_adaptive.yaml.
-
-WHAT "DESTYLING" MEANS HERE: Ye et al.'s CoT-forgery finding is that
-rewriting an injected instruction to sound less like a direct command and
-more like neutral, narrative/reasoning-register text reduces how strongly
-it reads as an instruction -- which is exactly the signal our discrepancy
-scorer depends on. An attacker aware of a discrepancy-based detector would
-have a direct incentive to do this deliberately. This module asks an LLM
-(the "rewriter") to perform that rewrite at a chosen level, 0.0 (unchanged)
-to 1.0 (maximally destyled), while preserving the instruction's actual
-semantic effect -- an attack that no longer works isn't a harder attack,
-it's a failed one, and reporting it as a detection win would misrepresent
-what happened.
-
-API usage is isolated to this file and asr_harness.py -- nothing elsewhere
-in the project calls an external LLM. Reads ANTHROPIC_API_KEY from the
-environment only; never hardcoded, never logged.
-"""
-
 from __future__ import annotations
 
 import os

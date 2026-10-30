@@ -1,36 +1,3 @@
-"""
-src/baselines/guardrails/harness.py
-
-EXISTING models, NEW harness (Section 8 C8(b): "EXISTING models / NEW
-harnesses"). Architecture component: C8(b) -- the headline comparison for
-Experiment 3.
-
-All of PromptGuard 2, ProtectAI v2, and PIGuard/InjecGuard share the same
-shape (Section 8 C8: "A fine-tuned encoder producing an attack probability
-from input text") -- a HuggingFace sequence-classification checkpoint with
-a binary or near-binary output. One shared harness loads any of them by
-HF model id and exposes a uniform `score(text) -> float` (probability of
-"injection"/"malicious"), so Experiment 3's matched-FPR comparison treats
-every guardrail identically regardless of which specific checkpoint or
-label scheme it uses internally.
-
-LlamaGuard-3-8B is NOT wired through this harness: at 8B parameters it is
-not feasible to run at any volume on this project's CPU/MPS laptop within
-the compressed timeline's compute budget (contrast: DeBERTa-v3-base at
-184M already runs at ~3.4s/step here). This is a disclosed compute
-constraint, not a silent omission. A smaller
-LlamaGuard variant or a hosted-API path is the documented follow-up, alongside the LLM-judge baseline (which needs API access not yet
-configured in this environment).
-
-Label-scheme handling: different checkpoints name their "injection" class
-differently (LABEL_1, INJECTION, MALICIOUS, ...). `injection_label_hint`
-lets the caller specify which output index/label counts as "flagged";
-default falls back to "whichever label is not the first" for binary heads,
-which is verified against each model's actual config at load time (not
-assumed) via `_resolve_injection_index`.
-"""
-# this module provides a uniform interface for scoring text for injection likelihood using various guardrail models.
-
 from __future__ import annotations
 
 from dataclasses import dataclass

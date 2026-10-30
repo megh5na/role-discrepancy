@@ -1,17 +1,3 @@
-"""
-src/supervision/build_supervision_sets.py
-
-*** OUR CONTRIBUTION (NEW) *** — pipeline entry point wiring transplant.py +
-balance.py together, and running the balance diagnostics before anything
-gets trained on the result.
-
-Usage:
-    python -m src.supervision.build_supervision_sets \
-        --in data/interim/clean_spans_register.jsonl \
-        --out-dir data/processed \
-        --transplant-rate 0.5
-"""
-# wire together the transplant.py + balance.py modules, and run the balance diagnostics before anything gets trained on the resultx
 from __future__ import annotations
 
 import argparse

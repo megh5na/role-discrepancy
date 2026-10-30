@@ -1,37 +1,3 @@
-"""
-experiments/exp06_overdefense/analyze_e6.py
-
-Experiment 6: over-defense. How often does a discrepancy detector flag
-LEGITIMATE role-mixed traffic, and does the asymmetric severity matrix do what
-it was designed to do (spare benign mismatches such as a user pasting a
-document) compared with the severity-free scorer?
-
-Data: benign role-mixed corpus (13 mixed cells + 5 matched control cells, 1,710
-texts; configs/data/benign_role_mixed.yaml), NotInject (339 benign prompts with
-trigger words, declared USER), BIPIA (549 benign / 120 injected unique strings,
-declared DOCUMENT). Six models (naive/transplant x seeds 42, 123, 456) from saved
-role probabilities, plus seed ensembles (mean score over the 3 seeds).
-
-Scorers (src/scoring, project functions, declared role per record):
-  asym  prob_deficit x asymmetric severity   (the shipped scorer)
-  none  prob_deficit alone                    (severity-free)
-
-Operating point (deployment-like, ONE threshold per scorer and model): the
-threshold is set so that 5% of the pooled matched CONTROL cells are flagged.
-Then reported at that same threshold: false-positive rate on the mixed cells
-(overall, by declared channel, by cell, by perceived->declared pair), the
-over-defense inflation over controls, NotInject FPR, BIPIA benign FPR and BIPIA
-TPR. Secondary: per-channel thresholds (5% on each channel's own controls).
-
-Intervals: bootstrap over RECORDS (controls, mixed, BIPIA strings, NotInject
-rows), threshold re-derived in every resample, one resample shared by all
-models/scorers (paired). They cover sampling of records only, NOT training-seed
-uncertainty (3 seeds per condition; seed-level evidence = exact permutation
-test, minimum p 0.05 one-sided / 0.10 two-sided). The corpus is benign by
-construction and its register labels are inherited, so these are rates on
-THIS constructed corpus, not on real traffic.
-"""
-
 from __future__ import annotations
 
 import json

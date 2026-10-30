@@ -1,24 +1,3 @@
-"""
-src/attacks/asr_harness.py
-
-*** OUR CONTRIBUTION for E7 (NEW) *** -- measures, for each destyled attack
-variant (src/attacks/destyle.py): (a) whether it still succeeds against a
-real target model (attack success rate, "ASR" -- Ye et al.'s term), and
-(b) what OUR discrepancy scorer (src/scoring/, unmodified, no retraining)
-thinks of it. The two curves together are the actual research question:
-does destyling raise ASR while it lowers our detection score, i.e. does an
-adaptive attacker who evades us also still work?
-
-Base version, ONE target model (config: configs/experiment/
-exp07_adaptive.yaml) -- the multi-model extension is separate, later work
-(docs/decisions.md).
-
-Three API calls per (attack, level) pair above level 0: destyle, run the
-target, judge success. Level 0 skips the destyle call (it's the literal
-original text). `max_total_calls` in the config is a hard stop, checked
-before every call, not just a documented intention.
-"""
-
 from __future__ import annotations
 
 import json

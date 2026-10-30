@@ -1,6 +1,3 @@
-"""tests/test_exp03_naive.py -- E3-naive comparison helpers, offline
-(synthetic scores, no model)."""
-
 import sys
 from pathlib import Path
 

@@ -1,17 +1,3 @@
-"""
-experiments/exp01_swap_validity/train_production_checkpoint.py
-
-Trains ONE encoder on the FULL transplant_train.jsonl set (not E1's
-subsample) and persists it — this is the checkpoint E3 (BIPIA detection vs
-guardrails) will actually use to score spans. E1's runs were deliberately
-throwaway (fast controlled comparison, in-memory only); this is the first
-"real" artifact.
-
-Uses the TRANSPLANT construction (not naive) since E1 already established
-it's the better condition (swap_consistency 0.937 vs 0.711) — no reason to
-ship the worse-performing naive model as our actual detector.
-"""
-
 from __future__ import annotations
 
 import json

@@ -1,11 +1,3 @@
-"""
-tests/test_delimiters.py
-
-SECURITY-CRITICAL test (Section 8, C2 / Section 17: "a unit test asserting
-zero template artifacts survive"). If this test is ever weakened or skipped,
-say so explicitly -- do not silently loosen it.
-"""
-
 import sys
 from pathlib import Path
 

@@ -1,19 +1,3 @@
-"""
-service/calibrate_thresholds.py
-
-DESIGN-AGNOSTIC DEMO GROUNDWORK (no UI). Derives the operating threshold each seed ensemble uses in the demo,
-from SAVED role probabilities, with the same rule as E6's headline operating point: ONE threshold per ensemble,
-set so 5% of the pooled matched CONTROL cells (benign text in its own channel; 5 control cells, 455 texts) are
-flagged, under the default scorer (continuous expected severity, mean over the three seeds).
-
-It also prints what that threshold does elsewhere (mixed benign cells, NotInject, BIPIA benign, BIPIA injected)
-so the demo never shows a threshold whose behaviour we have not measured. Output: service/thresholds.json.
-
-LIMITATIONS (carry into the demo text): the controls are a constructed benign corpus; the mixed-cell false-alarm
-rate at this threshold is high for the cells where benign text quotes requests (E6); BIPIA attacks are 120
-distinct strings; this is not a deployment-tuned threshold.
-"""
-
 from __future__ import annotations
 
 import json

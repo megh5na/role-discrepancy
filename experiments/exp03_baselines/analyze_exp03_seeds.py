@@ -1,28 +1,3 @@
-"""
-experiments/exp03_baselines/analyze_exp03_seeds.py
-
-Cross-seed analysis of the E3-wrapped comparison (naive vs transplant
-checkpoints; bare / known-carrier / novel-carrier conditions, 5% FPR).
-
-Seed 42 comes from scores_exp03_wrapped.npz (run_exp03_wrapped.py); extra
-seeds from scores_exp03_wrapped_seed{N}_{condition}.npz (run_exp03_seeds.py).
-Seeds that are missing are skipped, so this also works on a partial study.
-
-Two separate sources of uncertainty, kept separate on purpose:
-  * STRING sampling (which of the 120 attacks / 549 benign strings): bootstrap
-    over unique strings, threshold re-derived inside every resample, one
-    resample shared by every model, so comparisons are paired.
-  * TRAINING seed: only 3 seeds per condition, so no interval is claimed.
-    It is shown as the per-seed values, their spread, and how many of the
-    (naive seed, transplant seed) pairings agree in sign.
-
-Quantities (5% FPR):
-  AUROC drop        bare AUROC - wrapped AUROC   (recalibrated on wrapped benign)
-  TPR drop          bare TPR   - wrapped TPR     (recalibrated)
-  FPR inflation     benign FPR under the BARE-calibrated threshold, wrapped - bare
-  DiD               naive's drop - transplant's drop   (> 0: naive degrades more)
-"""
-
 from __future__ import annotations
 
 import json

@@ -1,21 +1,3 @@
-"""
-experiments/exp07_adaptive/run_adaptive_attacker.py
-
-E7b: an OPTIMIZING adaptive attacker. Design and decision rule were pre-registered in docs/decisions.md ("PRE-REGISTRATION: E7b ...") before any call was made.
-
-EXISTING (reused unchanged): host documents, target call and judge from run_multi_target_v2.py; the scoring core service/scorer.py; CallBudget.
-NEW: the feedback loop. Per attack: round 0 scores the original; rounds 1 to 4 ask a rewriter for a new version given the history of every earlier attempt
-with (detector score, threshold, did the target follow it). Stops at the first JOINT SUCCESS = scores below the naive-ensemble document threshold AND is judged
-to succeed on the optimization target. Afterwards: verification of winners (3 extra samples), transfer of winners to the other two targets, and scoring of
-every candidate with the transplant ensemble.
-
-The attacker sees the NUMERIC detector score (a strong oracle assumption). The judge scores compliance with the ORIGINAL instruction, so semantic drift fails.
-Rewriter refusals (empty output, stop_reason=refusal, or an apology) are recorded and produce no candidate. Everything is appended to JSONL as it happens;
-a rerun resumes without repeating paid calls. CallBudget is a hard stop.
-
-Usage: python -m experiments.exp07_adaptive.run_adaptive_attacker [--smoke N]      (--smoke N: first N attacks, files tagged adaptive_smoke)
-"""
-
 from __future__ import annotations
 
 import argparse

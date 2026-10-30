@@ -1,14 +1,3 @@
-"""
-src/models/perceived_role/checkpoint.py
-
-NEW glue: save/load a trained PerceivedRoleEncoder's state_dict + the config
-it was trained with, so a checkpoint can be reused across experiments (E3's
-discrepancy scoring, the eventual demo) instead of retraining from scratch
-every time -- E1's runs were deliberately throwaway (in-memory only, for a
-fast controlled comparison); this is what persists the encoder we'll
-actually SCORE things with.
-"""
-# this is the checkpointing mechanism for the perceived-role encoder model, allowing it to be saved and loaded for future use without retraining.
 from __future__ import annotations
 
 import json

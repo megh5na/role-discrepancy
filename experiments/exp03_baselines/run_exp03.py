@@ -1,19 +1,3 @@
-"""
-experiments/exp03_baselines/run_exp03.py
-
-Experiment 3 (Section 14): BASELINE DETECTION COMPARISON.
-"Does discrepancy detection beat trained guardrails on indirect injection?"
-
-Setup (first cut): BIPIA only for this pass (InjecAgent/LLMail
-follow once this harness is validated). Our discrepancy scorer (C5) fed by
-the trained perceived-role encoder checkpoint (C4) vs. guardrail baselines
-(C8b) at matched FPR (C10) on BIPIA's own benign/injected split.
-
-Every guardrail in KNOWN_GUARDRAILS is attempted; if a checkpoint fails to
-download/load (gated, network, etc.) it's skipped with a clear message
-rather than silently omitted from the printed summary.
-"""
-
 from __future__ import annotations
 
 import json

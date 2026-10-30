@@ -1,26 +1,3 @@
-"""
-experiments/exp06_overdefense/run_e6_scoring.py
-
-E6 step 1: score the benign role-mixed corpus (Category C, 1,710 texts,
-data/interim/benign_role_mixed.jsonl) and NotInject (339 real benign prompts
-containing injection-trigger words, declared USER) with all six models (naive
-and transplant, seeds 42, 123, 456) and SAVE THE 5-WAY ROLE PROBABILITIES, so
-every scoring rule can be applied offline in analyze_e6.py.
-
-Same preprocessing as the BIPIA runs: strip_delimiters(text), max_length 64,
-batch 16. Seed-42 checkpoints live in checkpoints/; seeds 123/456 were cloned
-(APFS copy-on-write) to checkpoints/kept_seed_models/ during the retrain.
-
-Safeguard: before scoring, each loaded checkpoint must reproduce the first 20
-saved BIPIA bare-injected probability rows for that model
-(experiments/ablation_severity/probs_<model>.npz) to within 1e-5; a clone that
-is not the intended model aborts the run instead of producing quietly wrong
-numbers.
-
-Outputs (this directory): e6_probs_<model>.npz with arrays `corpus` (1710, 5)
-and `notinject` (339, 5), plus e6_texts_meta.json describing the inputs.
-"""
-
 from __future__ import annotations
 
 import os

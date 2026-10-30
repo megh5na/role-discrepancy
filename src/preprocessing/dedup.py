@@ -1,20 +1,3 @@
-"""
-src/preprocessing/dedup.py
-
-NEW (standard MinHash/LSH technique applied to project-specific requirements)
-Section 8, C2. "public injection corpora overlap heavily" (spec) is the
-stated motivation, but near-duplicates matter for register sources too: many
-short Dolly instructions or gsm8k answer-openings are near-identical
-templates ("What is the capital of X?"), and letting dozens of copies of
-the same sentence into training silently overweights whatever surface
-pattern that one template happens to have.
-
-Uses datasketch MinHash + LSH for approximate near-duplicate detection
-(exact-hash dedup would miss paraphrase-level duplicates; full pairwise
-comparison is O(n^2) and too slow past a few thousand records).
-"""
-# run separately per role
-
 from __future__ import annotations
 
 import re

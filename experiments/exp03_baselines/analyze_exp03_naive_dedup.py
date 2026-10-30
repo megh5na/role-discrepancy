@@ -1,22 +1,3 @@
-"""
-experiments/exp03_baselines/analyze_exp03_naive_dedup.py
-
-Deduplicated re-analysis of E3 / E3-naive.
-
-WHY: the 800 benign / 800 injected BIPIA spans E3 uses are NOT 1600
-independent samples. After delimiter stripping there are only 120 unique
-injected strings (one repeats 16 times) and 549 unique benign strings, with
-no string shared between the classes. Duplicates get identical scores, so
-span-level McNemar / bootstrap tests (run_exp03_naive.py) count the same
-attack many times and are overconfident. Here each unique string counts once,
-and the bootstrap resamples unique strings (benign and injected), re-deriving
-the matched-FPR threshold inside every resample, so threshold uncertainty is
-included. The SAME resampled strings are used for both detectors in a
-comparison, so differences are paired.
-
-Reads scores_exp03_naive.npz (saved by run_exp03_naive.py); needs no models.
-"""
-
 from __future__ import annotations
 
 import json

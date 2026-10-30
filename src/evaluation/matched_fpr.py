@@ -1,18 +1,3 @@
-"""
-src/evaluation/matched_fpr.py
-
-NEW harness / EXISTING protocol (Section 8 C10, Section 4/14/15: "MANDATORY.
-Comparing raw accuracies across detectors with different default thresholds
-is meaningless and a panel may catch it").
-
-Given, for each detector, a set of scores on a shared BENIGN set and a set
-of scores on an INJECTED set, computes TPR at each detector's OWN threshold
-calibrated to a target FPR on the shared benign set. This is what makes
-Experiment 3's comparison (our discrepancy scorer vs. PromptGuard 2 vs.
-ProtectAI v2 vs. ...) fair: every detector is evaluated at the SAME
-false-positive budget, not at whatever its own default cutoff happens to be.
-"""
-
 from __future__ import annotations
 
 import numpy as np

@@ -1,16 +1,3 @@
-"""
-experiments/exp04_generalization/build_e4_sets.py
-
-Builds the E4 inputs. See docs/decisions.md "E4 PRE-REGISTRATION" for the design
-and the confirmation criterion fixed before any LLMail scoring.
-
- * LLMail short set: unique bodies with 5 to 45 words and ASCII fraction >= 0.9
-   (English-oriented encoders, 64-token window), delimiters stripped, level group
-   parsed from the `scenario` field. LLMail has no benign emails.
- * BIPIA family map: stripped unique injected string -> attack_category, aligned
-   with the unique-in-order lists the earlier runs used.
-Outputs: data/interim/e4_llmail_short.jsonl (gitignored), e4_sets_meta.json.
-"""
 from __future__ import annotations
 
 import json

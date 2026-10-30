@@ -1,9 +1,3 @@
-"""tests/test_exp02b_carrier.py -- E2b evaluation logic, offline.
-
-Uses fake predict functions, so no model is loaded or trained. The training
-path is the same code E2 already ran; what is new in E2b, and tested here, is
-how the held-out evaluation set is built and scored."""
-
 import sys
 from pathlib import Path
 

@@ -1,30 +1,3 @@
-"""
-service/scorer.py
-
-DESIGN-AGNOSTIC DEMO GROUNDWORK (no UI). One object a demo front end (web, notebook, whatever the design
-references call for) can call:  RoleDiscrepancyScorer.score(text, declared_role) -> dict.
-
-EXISTING: the stock DeBERTa-v3-base encoder and the saved checkpoints; the preprocessing (strip_delimiters),
-tokenizer length (64) and batching of the experiment scoring scripts. OUR CONTRIBUTION: the supervision that
-trained the checkpoints (naive vs transplant) and the discrepancy scorer (default: continuous expected severity).
-NEW HERE: only this thin wrapper and the thresholds file (service/calibrate_thresholds.py).
-
-Detector = a seed ENSEMBLE (mean of per-seed scores, seeds 42/123/456), chosen by `condition`:
-  "naive"       naive-supervised encoders (the stronger detector on BIPIA, see docs)
-  "transplant"  transplant-supervised encoders (the project's supervision contribution)
-Memory: each DeBERTa-base checkpoint is ~0.7 GB in fp32; one condition = 3 models. Load one condition at a time on
-an 8 GB machine.
-
-Threshold policies (thresholds.json; measured behaviour is in that file and docs/decisions.md):
-  "pooled"       the E6 headline operating point: one threshold per ensemble, 5% of pooled matched controls flagged
-  "per_channel"  5% of THAT channel's own control cell flagged (E6 secondary analysis). The tool and reasoning
-                 thresholds are degenerate (~0.001 to 0.02: their control texts barely score), so the scorer marks
-                 `threshold_reliable = False` for those channels.
-The returned `flagged` is never the whole story: the role probabilities, the perceived role and the declared role are
-returned so a front end can show WHY (this is a discrepancy detector, not a black-box classifier).
-"""
-# mean of per-seed scores, seeds 42/123/456
-
 from __future__ import annotations
 
 import json

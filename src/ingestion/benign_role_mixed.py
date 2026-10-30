@@ -1,29 +1,3 @@
-"""
-src/ingestion/benign_role_mixed.py
-
-Builds the Category C corpus (DataCategory.BENIGN_ROLE_MIXED) used by
-Experiment 6 (over-defense): benign text whose natural register differs from
-the channel it legitimately sits in, e.g. a user pasting a Wikipedia
-paragraph into their own message, or a tool returning a snippet of prose.
-
-EXISTING data (register-source spans), NEW construction. All cell
-definitions, source mappings and frame wordings live in
-configs/data/benign_role_mixed.yaml so they can be read and edited in one
-place; read the comments there for what "benign" does and does not mean here.
-
-Guarantees enforced here (and by tests/test_benign_role_mixed.py):
-  * every content span was NEVER used in training or swap-test construction
-    (record ids checked against data/processed/*.jsonl; missing files raise,
-    they are not skipped);
-  * no span or final text is reused across cells;
-  * deterministic: same config + same inputs -> same corpus, independent of
-    the order records appear in the input file;
-  * is_injected is False for every record.
-
-Usage:
-    python -m src.ingestion.benign_role_mixed
-"""
-
 from __future__ import annotations
 
 import hashlib

@@ -1,27 +1,3 @@
-"""
-src/supervision/balance.py
-
-*** OUR CONTRIBUTION (NEW) *** — Section 6 NEW-1, Section 8 C3(b), Section 17.
-
-Enforces (and then VERIFIES) the three balance conditions the spec requires
-of the supervision construction:
-
-    (i)   every label appears in every position (native + every foreign
-          carrier channel)
-    (ii)  every label draws from multiple source corpora, where a second
-          real corpus exists (Section 10; the two
-          registers -- tool, system -- currently single-sourced)
-    (iii) span length is balanced across labels
-
-Why "enforce, then verify" and not just "enforce": Section 10's own
-cross-cutting risk list warns that the corpus-identity shortcut can "enter
-through our own pipeline" -- i.e. balancing code can have bugs, or can
-balance the wrong axis, and LOOK correct while still leaving a shortcut
-available. `corpus_prediction_probe` below is the verification instrument
-named explicitly in that section: "verify it with a corpus-prediction
-probe."
-"""
-# basically, to paraphrase the spec: "balance, then verify that you balanced correctly, because if you didn't balance correctly, the model will find a shortcut and you'll never know it."
 from __future__ import annotations
 
 import random

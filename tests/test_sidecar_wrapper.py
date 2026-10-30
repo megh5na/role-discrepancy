@@ -1,7 +1,3 @@
-"""tests/test_sidecar_wrapper.py -- offline tests for C7's wrapper
-construction, including the empirical demonstration of Section 5's core
-argument (no model needed for this part)."""
-
 import sys
 from pathlib import Path
 

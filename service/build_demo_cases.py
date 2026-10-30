@@ -1,23 +1,3 @@
-"""
-service/build_demo_cases.py
-
-DESIGN-AGNOSTIC DEMO GROUNDWORK (no UI). Builds service/demo_cases.json: example texts for the demo, each with the
-scores our detectors ACTUALLY gave it (from saved role probabilities; the scorer's parity test shows these match a
-live run to < 1e-4).
-
-NO CHERRY-PICKING: within each category the examples are drawn uniformly at random with a fixed seed (SEED), so
-misses and false alarms appear at roughly the rate they occur. The category list was fixed before drawing, and every
-case records its category, source and the outcome at both thresholds. A case that is wrong stays in.
-
-Categories (all declared DOCUMENT unless stated):
-  benign_email_text       BIPIA benign sentences (should NOT flag)
-  injected_original       BIPIA injected spans, original wording (should flag)
-  destyled_attack         E7 variants: the SAME attack at destyling levels 0.0 / 0.5 / 1.0 (score should fall; so does attack success)
-  user_pastes_document    E6 benign: declared USER, text reads as a document (severity matrix should spare it)
-  document_quotes_request E6 benign: declared DOCUMENT, text quotes a request (KNOWN over-defense: expect false alarms)
-  control_user            E6 benign: declared USER, ordinary user text (should NOT flag)
-"""
-
 from __future__ import annotations
 
 import json

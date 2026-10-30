@@ -1,20 +1,3 @@
-"""
-experiments/exp04_generalization/analyze_e4.py
-
-E4 (generalization). Pre-registration: docs/decisions.md "E4 PRE-REGISTRATION".
- A. BIPIA per attack family (code 45 / targeted 25 / task_irrelevant 25 / task_relevant 25
-    unique attacks, so intervals are wide) vs the benign pools.
- B. LLMail-Inject short emails (SUPPLEMENTARY; no benign emails exist, so negatives are
-    the same benign pools; separation is confounded with source/genre style), overall and
-    by level group, plus the PRE-REGISTERED non-inferiority check of cont_exp vs asym.
- C. Source-style diagnostic: cross-validated TF-IDF+LR AUROC separating each attack set
-    from the benign pool by lexical style alone (a trained-on-attacks upper-ish bound on
-    how much of any detector's AUROC could be style).
-Detectors: naive / transplant seed ensembles x {asym, cont_exp, none}; six single models
-(asym, cont_exp); the two guardrails. Bootstrap over records (shared resample, threshold
-re-derived), primary pool all_benign; point estimates for the other pools. Record-level
-intervals only (no seed uncertainty); corpus benign by construction.
-"""
 from __future__ import annotations
 
 import json

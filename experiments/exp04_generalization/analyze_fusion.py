@@ -1,18 +1,3 @@
-"""
-experiments/exp04_generalization/analyze_fusion.py
-
-Fusion of the role-discrepancy detector with the guardrails. PRE-REGISTERED in
-docs/decisions.md ("FUSION TEST PRE-REGISTRATION") before this ran; rules and the
-success criterion are fixed there.
-
-Each detector's score -> u = mid-rank empirical CDF on a random HALF of the benign pool
-(benign-only calibration, no positives); the other half is the evaluation negatives; a
-new split every bootstrap iteration, with positives and evaluation negatives resampled.
-N / T = naive / transplant seed ensemble under cont_exp; P = ProtectAI v2; G = third-party.
-Fusions: max(u) and mean(u). Record-level intervals only (no seed uncertainty);
-benign pools are partly benign-by-construction (E6 corpus); LLMail negatives are not
-genre-matched (see analyze_e4.py).
-"""
 from __future__ import annotations
 
 import json

@@ -1,27 +1,3 @@
-"""
-src/models/perceived_role/train.py
-
-EXISTING training loop pattern (Section 6: "Fine-tuning procedure ...
-EXISTING"), wired to OUR supervision construction and label space.
-Architecture component: C4/C9 (Section 8).
-
-Trains a PerceivedRoleEncoder on a list of TrainingExample (from
-src/supervision/transplant.py) with hard cross-entropy loss. Multi-seed by
-construction (`train_one_run(seed=...)` is the unit CT9's spec calls for --
-"Fomin reports high seed variance in this exact setting; single-seed results
-prove nothing", Section 8 C9).
-
-*** ABSOLUTE PROHIBITION A enforced here too ***: the Dataset class exposes
-ONLY (text, label) to the model. `position_channel`, `source_dataset` etc.
-are read for bookkeeping/eval but never tokenised or passed to forward().
-
-Per-batch delimiter assertion (Section 27 rule 10 / Section 8 C2: "assert on
-every batch during training") -- cheap regex check, run every batch, not
-just at data-build time, so a bug anywhere upstream fails loudly during
-training rather than silently producing an invalid result.
-"""
-# adamw + cross entropy loss
-
 from __future__ import annotations
 
 import random

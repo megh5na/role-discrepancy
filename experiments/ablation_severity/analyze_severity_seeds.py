@@ -1,31 +1,3 @@
-"""
-experiments/ablation_severity/analyze_severity_seeds.py
-
-Three-seed severity ablation. The seed-42 ablation (analyze_severity_ablation.py)
-found that the asymmetric severity matrix cost the transplant checkpoint ~0.25
-AUROC and that, without it, transplant beat naive. That was one seed, and seed
-42 was the weakest seed for both conditions. This reruns the question on all
-SIX models (naive and transplant at seeds 42, 123, 456), all from saved role
-probabilities (run_severity_ablation.py, run_severity_seeds.py), comparing
-
-    prob_deficit|asym   the shipped scorer (asymmetric channel-pair severity)
-    prob_deficit|none   severity-free scorer: base discrepancy alone
-
-Questions, each with its own table:
-  A  validation: probabilities reproduce every previously saved score.
-  B  does removing severity shrink the seed-to-seed spread?
-  C  naive vs transplant across seeds, under each scorer. SEED-LEVEL exact
-     permutation test (3 vs 3; smallest attainable p is 0.05 one-sided / 0.10
-     two-sided) on per-model numbers; no interval over seeds is claimed.
-  D  what the severity matrix does PER MODEL (none minus asym, paired string
-     bootstrap).
-  E  seed ENSEMBLES under the severity-free scorer (score-averaged and
-     rank-averaged), paired transplant-vs-naive on 12 conditions, and bare
-     detection vs the two guardrails.
-String-level intervals (D, E) cover sampling of the 120 attacks / 549 benign
-strings only and do NOT include training-seed uncertainty.
-"""
-
 from __future__ import annotations
 
 import json

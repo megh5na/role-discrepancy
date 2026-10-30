@@ -1,32 +1,3 @@
-"""
-src/models/sidecar/validate_native_template.py
-
-*** CORRECTED REPRODUCTION ATTEMPT, kept alongside validate.py's original
-attempt rather than replacing it ***
-
-WHY THIS SECOND SCRIPT EXISTS: validate.py's first run used synthetic XML
-tags (<user>...</user>) and got a clean GATE FAILURE -- the probe followed
-the tag (P(user)=0.990) even for reasoning-register content. Before
-accepting that as evidence against the mechanism, checked whether the
-XML tags were the problem: `tokenizer.apply_chat_template` shows
-SmolLM2-135M-Instruct's actual trained format is ChatML
-(`<|im_start|>role\\n...<|im_end|>`), which does NOT include `<user>` or
-`<reasoning>` as tokens the model was ever trained to treat as role
-markers. The first test may therefore have measured "does an
-out-of-distribution string get ignored" rather than "does register beat
-structural position" -- a different, uninteresting question.
-
-This version uses the model's OWN chat template via
-`tokenizer.apply_chat_template`, restricted to the roles it actually
-supports: system, user, assistant (SmolLM2's template has no native
-document/tool/reasoning role -- so this is a 3-class, not 5-class,
-reproduction, honestly narrower in scope than validate.py's attempt).
-
-Both results are kept and reported -- neither is deleted in favour of the
-other (Section 27 rule 13: preserve ablations/variants, including
-unfavourable ones).
-"""
-
 from __future__ import annotations
 
 import json

@@ -1,6 +1,3 @@
-"""tests/test_severity_ablation.py -- scoring-variant logic for the severity
-ablation, offline, with hand-built role probabilities."""
-
 import sys
 from pathlib import Path
 

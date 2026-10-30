@@ -11,3 +11,14 @@ checkpoints/
 *.log
 .env
 *.zip
+
+# local-only material: project docs, paper and handoff files, tool settings, data
+docs/
+paper/
+.claude/
+data/
+
+# experiment outputs (scores, probabilities, result and analysis files)
+experiments/**/*.json
+experiments/**/*.jsonl
+experiments/**/*.npz

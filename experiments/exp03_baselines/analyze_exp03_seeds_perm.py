@@ -1,20 +1,3 @@
-"""
-experiments/exp03_baselines/analyze_exp03_seeds_perm.py
-
-Seed-level inference for the E3 seed study. analyze_exp03_seeds.py gives
-intervals over STRING sampling only; the unit of replication for the
-naive-vs-transplant question is the trained model (3 seeds per condition).
-
-Exact permutation test: each model contributes one number per quantity; the
-statistic is mean(naive) - mean(transplant). The null reshuffles which 3 of
-the 6 models are called "naive" (C(6,3) = 20 labelings). With 3 vs 3 models the
-smallest attainable p-value is 1/20 = 0.05 one-sided and 0.10 two-sided, so
-this test can never show strong significance at this seed count; it can only
-say whether the observed split is the most extreme one possible.
-
-Uses point estimates per model (5% FPR) from the saved scores; no models needed.
-"""
-
 from __future__ import annotations
 
 import itertools

@@ -1,19 +1,3 @@
-"""
-src/baselines/simple/tfidf_baseline.py
-
-EXISTING models (TF-IDF, logistic regression), NEW harness applying them to
-OUR role-classification task. Architecture component: C8(a) (Section 8/13).
-
-*** THIS IS THE DEEP-LEARNING FALSIFICATION TEST, NOT DECORATION ***
-(Section 11: "Component C8(a) exists to falsify our justification. If
-TF-IDF + logistic regression matches the encoder on the swap test AND on
-LODO, then register is a surface-feature problem, the transformer is
-unjustified, and WE REPORT THAT.") Trained on the EXACT SAME TrainingExample
-sets (naive_control / transplant_train) as the encoder, evaluated with the
-exact same metrics (src/evaluation/metrics.py), so the comparison is
-apples-to-apples.
-"""
-
 from __future__ import annotations
 
 from sklearn.feature_extraction.text import TfidfVectorizer

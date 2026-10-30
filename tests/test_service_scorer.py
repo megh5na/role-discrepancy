@@ -1,5 +1,3 @@
-"""tests/test_service_scorer.py -- demo scoring core (service/scorer.py). Fake-model tests are offline and fast; the parity test
-loads the real naive checkpoints and is skipped if they are absent."""
 import sys
 from pathlib import Path
 

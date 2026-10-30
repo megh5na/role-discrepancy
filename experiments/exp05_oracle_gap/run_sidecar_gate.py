@@ -1,17 +1,3 @@
-"""
-experiments/exp05_oracle_gap/run_sidecar_gate.py
-
-E5 step 1: the sidecar GATE at a larger model scale. The 135M sidecar did not reproduce
-Ye et al.'s conflict result (reasoning-register text under a user tag reads as `user`) at
-any layer in 3 variants (docs/lab_notebook.md). The working hypothesis was model scale.
-This reruns the same three variants (synthetic XML tags / native ChatML template / all-layer
-sweep) on a larger model of the same family, saving to NEW files so the original 135M
-results are never overwritten.
-
-Usage: python -m experiments.exp05_oracle_gap.run_sidecar_gate HuggingFaceTB/SmolLM2-360M-Instruct 360m
-       python -m experiments.exp05_oracle_gap.run_sidecar_gate HuggingFaceTB/SmolLM2-1.7B-Instruct 1p7b bf16
-Output: experiments/exp05_oracle_gap/gate_<tag>.json
-"""
 from __future__ import annotations
 
 import json

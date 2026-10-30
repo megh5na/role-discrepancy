@@ -1,30 +1,3 @@
-"""
-src/models/sidecar/validate.py
-
-*** GATE (Section 8 C7): "Integration + a validation script that reproduces
-their headline conflict result... GATE: If this does not reproduce, escalate
-before proceeding." ***
-
-Reproduces the qualitative shape of Ye et al.'s central finding: text is
-represented internally by its REGISTER, not by the structural tag wrapping
-it. Concretely: wrap neutral text in all 5 role tags, train a linear probe
-to read the wrapper tag off activations (this trivially works -- content is
-constant, tag is the only signal, Section 2). Then apply that SAME probe to
-REAL register-bearing content (e.g. actual reasoning-trace text) wrapped in
-a MISMATCHED tag (e.g. <user>...</user>) -- the "conflict condition". If the
-probe's readout follows the WRAPPER TAG (predicts "user" with high
-confidence), the model is reading structure. If it follows the CONTENT'S
-REGISTER (predicts "reasoning" despite the <user> tag), that's Ye et al.'s
-mechanism reproducing: register dominates structural position internally.
-
-MODEL SUBSTITUTION DISCLOSED: see src/models/sidecar/hooks.py docstring --
-SmolLM2-135M-Instruct, not the (unnamed, larger) models Ye et al. tested,
-for hardware reasons. We validate the QUALITATIVE pattern, not exact
-percentages (85% CoTness / 2% Userness is their number on their models; we
-report our own numbers and compare the DIRECTION and MAGNITUDE of the
-effect, not claim equality).
-"""
-
 from __future__ import annotations
 
 import json

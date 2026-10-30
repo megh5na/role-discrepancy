@@ -1,13 +1,3 @@
-"""
-src/evaluation/metrics.py
-
-NEW harness / EXISTING metric definitions (Section 8 C10, Section 15).
-Generic metric functions that work over any `predict_fn: list[str] -> list[Role]`
-so the SAME code evaluates the encoder (C4) and the TF-IDF baseline (C8a)
-identically -- important for a fair E1 comparison (Section 14 E1: "Baseline:
-Same encoder trained with naive channel labels; TF-IDF+LR on both").
-"""
-# gives swap consistency, native acc, foreign acc, etc  from e1
 from __future__ import annotations
 
 from src.ingestion.schema import Role

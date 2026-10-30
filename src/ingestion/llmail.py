@@ -1,27 +1,3 @@
-"""
-src/ingestion/llmail.py
-
-EXISTING dataset (microsoft/llmail-inject-challenge), NEW normalisation.
-Category A, Section 10: "LLMail-Inject... ~9,998 email-body injections
-across difficulty levels... 100% malicious; single delivery vector. Split:
-Test only; one LODO fold."
-
-The hosted version is much larger than the spec's stated ~9,998 (370,724
-rows in Phase1 alone) -- this is the raw competition-submission log (every
-red-team attempt against Microsoft's LLMail-Inject challenge, not a curated
-benchmark subset), so we SAMPLE down to a manageable size rather than using
-it all. `scenario` (e.g. "level1a") is the difficulty/attack-family field,
-used the same way `attack_category` is for BIPIA (Experiment 4, held-out
-family splits).
-
-HONEST NOTE ON DATA QUALITY: many submission bodies are unnatural
-adversarial text (e.g. repeated filler tokens like "yes" interleaved with
-the payload -- real red-teamers probing model robustness, not naturalistic
-prose). This is genuine attack diversity, not a cleaning bug -- kept as-is
-rather than filtered to "nicer-looking" text, since filtering would bias
-toward the injection styles we already expect to catch.
-"""
-
 from __future__ import annotations
 
 from datasets import load_dataset

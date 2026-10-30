@@ -1,23 +1,3 @@
-"""
-visualization/make_report_assets.py
-
-Regenerates every figure and table for the report from the saved result files, and
-nothing else: no number in an asset is typed by hand. Run from the repo root:
-
-    python -m visualization.make_report_assets
-
-Outputs
-  paper/figures/fig*.png|pdf      figures (PNG 200 dpi + vector PDF)
-  paper/figures/CAPTIONS.md       a caption for each figure, INCLUDING its main caveat
-  paper/tables/tab*.csv|md|tex    tables (CSV, Markdown, LaTeX booktabs)
-  paper/ASSETS_MANIFEST.md        each asset -> source files (sha256 prefix) for provenance
-
-Conventions
-  colours: naive = blue, transplant = orange, guardrails = grey; scorers: asym = filled,
-  none = hollow, cont_exp = diamond. Intervals are only drawn where the source file stores
-  them; record-level bootstrap intervals exclude training-seed uncertainty and are labelled
-  as such in the captions.
-"""
 from __future__ import annotations
 
 import hashlib

@@ -1,6 +1,3 @@
-"""tests/test_exp03_wrapped.py -- E3-wrapped condition building and bootstrap
-logic, offline (synthetic scores, no model)."""
-
 import sys
 from pathlib import Path
 

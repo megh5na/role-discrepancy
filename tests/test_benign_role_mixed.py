@@ -1,9 +1,3 @@
-"""tests/test_benign_role_mixed.py -- Category C corpus builder (E6).
-
-Pure-function tests use small synthetic spans and a synthetic config. The
-final group checks the REAL corpus file against the real training data and
-is skipped if the corpus has not been built yet."""
-
 import json
 import sys
 from pathlib import Path

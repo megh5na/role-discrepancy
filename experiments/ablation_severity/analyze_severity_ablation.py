@@ -1,30 +1,3 @@
-"""
-experiments/ablation_severity/analyze_severity_ablation.py
-
-Severity ablation (spec Section 14: "symmetric vs asymmetric scoring", and
-"discrepancy formulation variants"). The final score is
-    score = base_discrepancy(probs, declared)  x  severity(perceived, declared).
-asymmetric severity (src/scoring/asymmetry.py) is the second claimed
-contribution and had never been ablated: every earlier run used it.
-
-All variants are computed from the SAME saved role probabilities
-(run_severity_ablation.py), calling the project's own scoring functions, so
-only the scoring rule differs.
-
-  formulation  prob_deficit | neg_log_prob | margin   (src/scoring/discrepancy.py)
-  severity     asym   channel-pair severity matrix (the contribution)
-               sym    all mismatches 1.0, match 0.0 (SYMMETRIC_SEVERITY)
-               none   severity fixed at 1.0 (base discrepancy alone)
-  cmd_prob     EXPLORATORY simple baseline P(user) + P(system): ignores the
-               declared role and the severity matrix entirely.
-
-Declared role is DOCUMENT (BIPIA channel mapping). Evaluation as in
-run_exp03_wrapped.py: 12 conditions, 5% FPR, bootstrap over UNIQUE strings
-with the threshold re-derived inside every resample and one shared resample
-(paired). Reference variant for paired differences: prob_deficit|asym (the
-default scorer). SINGLE-SEED (seed 42) ablation.
-"""
-
 from __future__ import annotations
 
 import json

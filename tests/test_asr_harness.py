@@ -1,8 +1,3 @@
-"""tests/test_asr_harness.py -- E7 harness logic, offline (no real API key
-or network call). Uses a fake Anthropic-shaped client so the plumbing
-(sampling, budget enforcement, scoring integration, summarization) is
-verified without spending anything or needing credentials in CI."""
-
 import sys
 from pathlib import Path
 

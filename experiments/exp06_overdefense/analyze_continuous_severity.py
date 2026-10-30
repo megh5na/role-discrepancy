@@ -1,22 +1,3 @@
-"""
-experiments/exp06_overdefense/analyze_continuous_severity.py
-
-Does a continuous (probability-weighted) severity keep the shipped matrix's
-over-defense benefit while removing its seed fragility? Scorers, all from saved
-role probabilities of the six models (+ seed ensembles):
-  asym      shipped: (1-P(declared)) x S[argmax, declared]
-  none      base discrepancy alone
-  cont_exp  sum_r P(r) S[r, declared]      (pre-specified primary)
-  cont_max  max_r P(r) S[r, declared]      (sensitivity)
-Questions:
-  1 pooled separability (BIPIA injected vs 3 benign pools): AUROC, TPR@5% FPR
-  2 deployment-like operating point: mixed-cell / NotInject FPR, BIPIA TPR
-  3 seed spread (sd across seeds) per condition and pool
-  4 carrier-wrapped BIPIA (bare / known / novel AUROC) and seed spread
-  5 paired differences cont_exp - asym, record-level bootstrap (no seed uncertainty)
-  6 seed-level permutation, naive vs transplant (3 vs 3)
-Same caveats as analyze_e6.py (corpus benign by construction; record-level CIs).
-"""
 from __future__ import annotations
 
 import json

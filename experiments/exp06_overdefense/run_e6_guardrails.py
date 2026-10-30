@@ -1,15 +1,3 @@
-"""
-experiments/exp06_overdefense/run_e6_guardrails.py
-
-Score the two accessible guardrail baselines (ProtectAI v2, the third-party
-DeBERTa-v3 injection fine-tune; PromptGuard 2 is gated and PIGuard needs
-trust_remote_code, both excluded as before) on the E6 benign role-mixed corpus
-(1,710 texts) and NotInject (339), using exactly the texts the role encoders
-were scored on (run_e6_scoring.load_inputs: delimiters stripped). Guardrail
-scores on BIPIA already exist (scores_exp03_naive.npz).
-
-Output: e6_guardrail_scores.npz with <guardrail>__corpus and <guardrail>__notinject.
-"""
 from __future__ import annotations
 
 import os

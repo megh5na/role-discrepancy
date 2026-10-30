@@ -1,10 +1,3 @@
-"""
-experiments/exp07_adaptive/audit_adaptive_judge.py
-
-AUDIT of the E7b null result (exploratory, not pre-registered; added after reading the winners and a near miss). The E7b judge could under-credit compliance, which would
-understate the adaptive attacker. Every candidate that EVADED the detector but was judged "not followed" is re-judged with a stronger second judge (claude-opus-5, same prompt).
-Any flips would be reported as a sensitivity analysis. Output: adaptive_judge_audit.json.
-"""
 import json
 from pathlib import Path
 from experiments.exp07_adaptive.run_multi_target_v2 import judge, load_hosts

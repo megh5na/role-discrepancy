@@ -1,14 +1,3 @@
-"""
-experiments/ablation_severity/analyze_severity_cross.py
-
-Follow-up to analyze_severity_ablation.py, which compared scorers WITHIN each
-checkpoint. This compares the two checkpoints (transplant vs naive, seed 42)
-UNDER THE SAME SCORER, for the default asymmetric scorer and the
-severity-free scorer, with a paired string bootstrap (shared resample,
-threshold re-derived inside each resample). Also the difference-in-
-differences for degradation when wrapped. Single seed (42).
-"""
-
 from __future__ import annotations
 
 import json

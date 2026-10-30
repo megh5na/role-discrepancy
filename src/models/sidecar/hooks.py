@@ -1,38 +1,3 @@
-"""
-src/models/sidecar/hooks.py
-
-EXISTING technique (activation extraction via output_hidden_states), NEW
-integration code. Architecture component: C7 (Section 8), "use Ye et al.'s
-released code where possible."
-
-Purpose (restated from the spec, Section 8 C7): (i) validate the premise
-before building on it, (ii) supply the white-box UPPER BOUND for Experiment
-5 (oracle gap), (iii) optional teacher for the (cut) distillation arm.
-
-*** THIS FILE, UNLIKE src/models/perceived_role/encoder.py, IS ALLOWED TO
-READ ACTIVATIONS AND SEE WRAPPER TAGS. *** That is the entire point of the
-sidecar: it reproduces the WHITE-BOX method (which our text-only encoder
-cannot use -- Section 27, Absolute Prohibition A applies to the text-only
-encoder, NOT to this reproduction of prior work). Do not let this file's
-patterns leak into src/models/perceived_role/.
-
-MODEL CHOICE, A DISCLOSED COMPUTE SUBSTITUTION: Ye et al. test four
-open-weight LLMs (unnamed in the source material available to this build).
-This machine has 8GB total RAM and, per the E1 runs,
-real headroom for a model is on the order of ~1-2GB once the rest of the
-session's footprint is accounted for. We substitute a much smaller
-open-weight instruction-tuned model -- SmolLM2-135M-Instruct -- which still
-has a genuine chat template (system/user/assistant roles) and is small
-enough to run activation extraction on CPU without repeating the thrashing
-diagnosed for C4. This changes the ABSOLUTE numbers we can expect (a 135M
-model's internal role geometry is presumably less crisp than the larger
-models Ye et al. tested) but not the STRUCTURE of the validation: we are
-checking whether the qualitative conflict pattern (reasoning-style text
-under a USER tag reads as user-style, not reasoning-style) reproduces at
-all, which is the GATE (Section 8 C7: "GATE: If this does not reproduce,
-escalate before proceeding"), not whether the exact percentages match.
-"""
-
 from __future__ import annotations
 
 import torch

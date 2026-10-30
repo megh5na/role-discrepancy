@@ -1,20 +1,3 @@
-"""
-src/models/sidecar/wrapper_construction.py
-
-REPRODUCTION of Ye et al. 2026's probe-training construction (Section 4.2:
-"identical neutral text from pretraining corpora... wrapped in each of five
-role tags, so content is constant across classes and the probe cannot learn
-semantics"). Architecture component: C7.
-
-Uses literal XML-style role tags (<system>...</system>, <user>...</user>,
-etc.) -- the SAME tag vocabulary src/preprocessing/delimiters.py strips
-(_XML_ROLE_TAGS). This is not a coincidence: it is the empirical
-demonstration of Section 5's argument for why this exact construction
-CANNOT be ported to text space. Run `evaporates_under_stripping()` below to
-see it happen -- five wrapped versions of the SAME neutral text, stripped of
-tags, collapse to five byte-identical strings.
-"""
-
 from __future__ import annotations
 
 from src.ingestion.schema import Role
